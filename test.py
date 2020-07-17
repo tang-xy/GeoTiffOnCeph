@@ -1,6 +1,6 @@
 from pyspark import SparkContext
 
-logFile = "readme.md"
+logFile = "file://///root/GeoTiffOnCeph/readme.md"
 sc = SparkContext("local", "first app")
 logData = sc.textFile(logFile).cache()
 print(logData)
