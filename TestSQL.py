@@ -2,7 +2,7 @@ from pyspark import SparkConf,SparkContext
 from pyspark.sql import SQLContext, Row
 
 string_test = 'pyspark_test'
-conf = SparkConf().setAppName(string_test).setMaster('hdfs://34.67.82.182:8020')
+conf = SparkConf().setAppName(string_test).setMaster('yarn')
 sc=SparkContext(conf=conf)
 sqlContext = SQLContext(sc)
 
