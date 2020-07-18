@@ -2,7 +2,7 @@ from pyspark import SparkConf,SparkContext
 from pyspark.sql import SQLContext, Row
 
 string_test = 'pyspark_test'
-conf = SparkConf().setAppName(string_test).setMaster('hdfs:instance-2:8020')
+conf = SparkConf().setAppName(string_test).setMaster('hdfs://instance-2:8020')
 sc=SparkContext(conf=conf)
 sqlContext = SQLContext(sc)
 
