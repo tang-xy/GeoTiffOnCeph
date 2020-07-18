@@ -1,0 +1,9 @@
+joker,56
+buff,24
+condf,64
+googke,65
+gdal,71
+mirror,10
+jejf,59
+moda,14
+pyspark,86
