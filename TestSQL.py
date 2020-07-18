@@ -1,7 +1,9 @@
 from pyspark import SparkConf,SparkContext
 from pyspark.sql import SQLContext, Row
-# conf=(SparkConf().setAppName('PySparkTest2HDFS'))
-sc=SparkContext()
+
+string_test = 'pyspark_test'
+conf = SparkConf().setAppName(string_test).setMaster('yarn')
+sc=SparkContext(conf=conf)
 sqlContext = SQLContext(sc)
 
 # 加载文本文件并转换成Row.
