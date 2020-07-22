@@ -1,0 +1,135 @@
+{
+    "user_id": "testuser",
+    "display_name": "First User",
+    "email": "",
+    "suspended": 0,
+    "max_buckets": 1000,
+    "auid": 0,
+    "subusers": [],
+    "keys": [
+        {
+            "user": "testuser",
+            "access_key": "7P9UC5AGGUI9U950MD9Y",
+            "secret_key": "SBLVm20ghDErP9wmCZR6a1uHKyjTx8Zz6vgjZ22e"
+        }
+    ],
+    "swift_keys": [],
+    "caps": [],
+    "op_mask": "read, write, delete",
+    "default_placement": "",
+    "placement_tags": [],
+    "bucket_quota": {
+        "enabled": false,
+        "check_on_raw": false,
+        "max_size": -1,
+        "max_size_kb": 0,
+        "max_objects": -1
+    },
+    "user_quota": {
+        "enabled": false,
+        "check_on_raw": false,
+        "max_size": -1,
+        "max_size_kb": 0,
+        "max_objects": -1
+    },
+    "temp_url_keys": [],
+    "type": "rgw",
+    "mfa_ids": []
+}
+
+{
+    "user_id": "testuser",
+    "display_name": "First User",
+    "email": "",
+    "suspended": 0,
+    "max_buckets": 1000,
+    "auid": 0,
+    "subusers": [
+        {
+            "id": "testuser:swift",
+            "permissions": "full-control"
+        }
+    ],
+    "keys": [
+        {
+            "user": "testuser",
+            "access_key": "7P9UC5AGGUI9U950MD9Y",
+            "secret_key": "SBLVm20ghDErP9wmCZR6a1uHKyjTx8Zz6vgjZ22e"
+        }
+    ],
+    "swift_keys": [
+        {
+            "user": "testuser:swift",
+            "secret_key": "vwfCApSLrVOzL2LSiQWiddetFB9pFpPY55JVPs3k"
+        }
+    ],
+    "caps": [],
+    "op_mask": "read, write, delete",
+    "default_placement": "",
+    "placement_tags": [],
+    "bucket_quota": {
+        "enabled": false,
+        "check_on_raw": false,
+        "max_size": -1,
+        "max_size_kb": 0,
+        "max_objects": -1
+    },
+    "user_quota": {
+        "enabled": false,
+        "check_on_raw": false,
+        "max_size": -1,
+        "max_size_kb": 0,
+        "max_objects": -1
+    },
+    "temp_url_keys": [],
+    "type": "rgw",
+    "mfa_ids": []
+}
+{
+    "user_id": "testuser",
+    "display_name": "First User",
+    "email": "",
+    "suspended": 0,
+    "max_buckets": 1000,
+    "auid": 0,
+    "subusers": [
+        {
+            "id": "testuser:swift",
+            "permissions": "full-control"
+        }
+    ],
+    "keys": [
+        {
+            "user": "testuser",
+            "access_key": "7P9UC5AGGUI9U950MD9Y",
+            "secret_key": "SBLVm20ghDErP9wmCZR6a1uHKyjTx8Zz6vgjZ22e"
+        }
+    ],
+    "swift_keys": [
+        {
+            "user": "testuser:swift",
+            "secret_key": "E8BGix3RB5VfPi7OcgVvQhYbFKyPtZtJ3Pb1NFHg"
+        }
+    ],
+    "caps": [],
+    "op_mask": "read, write, delete",
+    "default_placement": "",
+    "placement_tags": [],
+    "bucket_quota": {
+        "enabled": false,
+        "check_on_raw": false,
+        "max_size": -1,
+        "max_size_kb": 0,
+        "max_objects": -1
+    },
+    "user_quota": {
+        "enabled": false,
+        "check_on_raw": false,
+        "max_size": -1,
+        "max_size_kb": 0,
+        "max_objects": -1
+    },
+    "temp_url_keys": [],
+    "type": "rgw",
+    "mfa_ids": []
+}
