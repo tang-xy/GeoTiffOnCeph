@@ -1,3 +1,4 @@
+# coding:utf-8
 from boto3.session import Session
 from osgeo import gdal
 import os
