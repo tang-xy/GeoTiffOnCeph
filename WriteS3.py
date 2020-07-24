@@ -8,8 +8,8 @@ from time import time
 class CephS3BOTO3():
 
     def __init__(self):
-        access_key = '7P9UC5AGGUI9U950MD9Y'
-        secret_key = 'SBLVm20ghDErP9wmCZR6a1uHKyjTx8Zz6vgjZ22e'
+        access_key = '8ETYBTBV4Z91JESIA0AV'
+        secret_key = 'OQVA7pzM8wapjWccKKxTB13ju0CVMN9W0PYe7maB'
         self.session = Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key)
         self.url = 'http://instance-1:7480'
         self.s3_client = self.session.client('s3', endpoint_url=self.url)
@@ -58,16 +58,19 @@ if __name__ == "__main__":
     # boto3
     cephs3_boto3 = CephS3BOTO3()
     #cephs3_boto3.get_bucket()
-    start = time()
-    print("Start: " + str(start))
-    for root, dirs, files in os.walk('mosic2003'):
-        for di in dirs:
-            path = os.path.join(root, di)
-            day_image = RsImage(path + '\\day\\result.tif')
-            night_image = RsImage(path + '\\night\\result.tif')
-            cephs3_boto3.upload(di + 'day', day_image)
-            cephs3_boto3.upload(di + 'night', night_image)
-        break
-    stop = time()
-    print("Stop: " + str(stop))
-    print(str(stop-start) + "秒")
+    #cephs3_boto3.create_bucket('mosic2003')
+    # start = time()
+    # print("Start: " + str(start))
+    # for root, dirs, files in os.walk('mosic2003'):
+    #     for di in dirs:
+    #         path = os.path.join(root, di)
+    #         day_image = RsImage(path + '\\day\\result.tif')
+    #         night_image = RsImage(path + '\\night\\result.tif')
+    #         #cephs3_boto3.upload(di + 'day', day_image)
+    #         #cephs3_boto3.upload(di + 'night', night_image)
+    #         cephs3_boto3.upload('ts', night_image.dayData.tobytes())
+    #         break
+    #     break
+    # stop = time()
+    # print("Stop: " + str(stop))
+    # print(str(stop-start) + "秒")
