@@ -3,6 +3,7 @@ from boto3.session import Session
 from osgeo import gdal
 import os
 from time import time
+import json
 # 新版本boto3
 
 class CephS3BOTO3():
@@ -43,34 +44,37 @@ class CephS3BOTO3():
         )
         return resp['Body'].read()
 
-class RsImage():
-    def __init__(self, filepath):
-        dataset = gdal.Open(filepath)
-        self.im_width = dataset.RasterXSize
-        self.im_height = dataset.RasterYSize
-        bandda = dataset.GetRasterBand(1)
-        self.dayData = bandda.ReadAsArray(0, 0, self.im_width, self.im_height)
-        self.im_geotrans = dataset.GetGeoTransform()
-        self.im_proj = dataset.GetProjection()
-        del dataset
+def RsImage(filepath):
+    dic = {}
+    dataset = gdal.Open(filepath)
+    dic['im_width'] = dataset.RasterXSize
+    dic['im_height'] = dataset.RasterYSize
+    bandda = dataset.GetRasterBand(1)
+    dic['dayData'] = bandda.ReadRaster(0, 0, dic['im_width'], dic['im_height'])#.tobytes().decode('utf-8')
+    dic['im_geotrans'] = dataset.GetGeoTransform()
+    dic['im_proj'] = dataset.GetProjection()
+    del dataset
+    return dic
 
 if __name__ == "__main__":
     # boto3
-    cephs3_boto3 = CephS3BOTO3()
+    #ephs3_boto3 = CephS3BOTO3()
     #cephs3_boto3.get_bucket()
     #cephs3_boto3.create_bucket('mosic2003')
-    # start = time()
-    # print("Start: " + str(start))
-    # for root, dirs, files in os.walk('mosic2003'):
-    #     for di in dirs:
-    #         path = os.path.join(root, di)
-    #         day_image = RsImage(path + '\\day\\result.tif')
-    #         night_image = RsImage(path + '\\night\\result.tif')
-    #         #cephs3_boto3.upload(di + 'day', day_image)
-    #         #cephs3_boto3.upload(di + 'night', night_image)
-    #         cephs3_boto3.upload('ts', night_image.dayData.tobytes())
-    #         break
-    #     break
-    # stop = time()
-    # print("Stop: " + str(stop))
-    # print(str(stop-start) + "秒")
+    start = time()
+    print("Start: " + str(start))
+    for root, dirs, files in os.walk('mosic2003'):
+        for di in dirs:
+            path = os.path.join(root, di)
+            day_image = RsImage(path + '\\day\\result.tif')
+            night_image = RsImage(path + '\\night\\result.tif')
+            strtemp = json.dumps(day_image)
+            dictemp = json.loads(strtemp)
+            #cephs3_boto3.upload(di + 'day', day_image)
+            #cephs3_boto3.upload(di + 'night', night_image)
+            #cephs3_boto3.upload('ts', night_image.dayData.tobytes())
+            break
+        break
+    stop = time()
+    print("Stop: " + str(stop))
+    print(str(stop-start) + "秒")
