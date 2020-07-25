@@ -33,3 +33,15 @@ if __name__ == "__main__":
     stop = time()
     print("Stop: " + str(stop))
     print(str(stop-start) + "秒")
+
+    start = time()
+    print("Start: " + str(start))
+    for root, dirs, files in os.walk('mosic2003'):
+        for di in dirs:
+            path = os.path.join(root, di)
+            day, day_image = RsImage(path + '/day/result.tif')
+            night, night_image = RsImage(path + '/night/result.tif')
+        break
+    stop = time()
+    print("Stop: " + str(stop))
+    print(str(stop-start) + "秒")
