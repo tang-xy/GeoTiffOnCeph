@@ -9,6 +9,10 @@ class RadosConn():
             raise RuntimeError('No data pool exists')
         self.ioctx = cluster.open_ioctx(pool_name)
 
+    def read_image(self, obj_name):
+        dic = {}
+
+
     def write_image_file(self, path, obj_name):
         dic = {}
         dataset = gdal.Open(path)
@@ -21,6 +25,6 @@ class RadosConn():
         dic['im_proj'] = dataset.GetProjection()
         del dataset
 
-        self.ioctx.write(obj_name, img)
-        for key,value in dic.items():
-            self.ioctx.set_xattr(obj_name, key, str(value))
+        #self.ioctx.write(obj_name, img)
+        #for key,value in dic.items():
+            #self.ioctx.set_xattr(obj_name, key, str(value))
