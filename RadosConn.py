@@ -63,7 +63,7 @@ class RadosConn():
         dic['im_geotrans'] = dataset.GetGeoTransform()
         dic['im_proj'] = dataset.GetProjection()
         del dataset
-        self.write_img('copy/obj_name.tif', dic['im_proj'], dic['im_geotrans'], img)
+        self.write_img('copy/' + obj_name +'.tif', dic['im_proj'], dic['im_geotrans'], img)
         #self.ioctx.write(obj_name, img)
         #for key,value in dic.items():
             #self.ioctx.set_xattr(obj_name, key, str(value))
