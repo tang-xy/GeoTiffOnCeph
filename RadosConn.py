@@ -20,8 +20,8 @@ class RadosConn():
         return dic
 
     def read_all_image_rados(self):
-        for key, obj in self.ioctx.list_objects():
-            print(key)
+        for obj in self.ioctx.list_objects():
+            print(obj)
 
     def write_img(self, filepath,im_proj, im_geotrans, b):
         # gdal数据类型包括
