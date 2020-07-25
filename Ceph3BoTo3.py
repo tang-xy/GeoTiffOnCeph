@@ -1,3 +1,4 @@
+# coding:utf-8
 from boto3.session import Session
 class CephS3BOTO3():
 
