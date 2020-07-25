@@ -27,6 +27,7 @@ class RadosConn():
         keylist = []
         for obj in self.ioctx.list_objects():
             keylist.append(obj.key)
+        return keylist
     
     def write_img(self, filepath,im_proj, im_geotrans, b):
         # gdal数据类型包括
