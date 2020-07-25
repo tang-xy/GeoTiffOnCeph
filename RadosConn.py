@@ -9,9 +9,19 @@ class RadosConn():
             raise RuntimeError('No data pool exists')
         self.ioctx = cluster.open_ioctx(pool_name)
 
-    def read_image(self, obj_name):
-        dic = {}
+    def __del__(self):
+        self.ioctx.close()
 
+    def read_image_rados(self, obj_name):
+        dic = {}
+        dic['data'] = self.ioctx.read(obj_name)
+        for k, v in self.ioctx.get_xattrs(obj_name):
+            dic[k] = v
+        return dic
+
+    def read_all_image_rados(self):
+        for key, obj in self.ioctx.list_objects():
+            print(key)
 
     def write_img(self, filepath,im_proj, im_geotrans, b):
         # gdal数据类型包括
@@ -63,7 +73,6 @@ class RadosConn():
         dic['im_geotrans'] = dataset.GetGeoTransform()
         dic['im_proj'] = dataset.GetProjection()
         del dataset
-        self.write_img('copy/' + obj_name +'.tif', dic['im_proj'], dic['im_geotrans'], img)
-        #self.ioctx.write(obj_name, img)
-        #for key,value in dic.items():
-            #self.ioctx.set_xattr(obj_name, key, str(value))
+        self.ioctx.write(obj_name, img)
+        for key,value in dic.items():
+            self.ioctx.set_xattr(obj_name, key, str(value))
