@@ -13,6 +13,45 @@ class RadosConn():
         dic = {}
 
 
+    def write_img(self, filepath,im_proj, im_geotrans, b):
+        # gdal数据类型包括
+        # gdal.GDT_Byte,
+        # gdal .GDT_UInt16, gdal.GDT_Int16, gdal.GDT_UInt32, gdal.GDT_Int32,
+        # gdal.GDT_Float32, gdal.GDT_Float64
+
+        # 判断栅格数据的数据类型
+        if 'int8' in b.dtype.name:
+            datatype = gdal.GDT_Byte
+        elif 'int16' in b.dtype.name:
+            datatype = gdal.GDT_UInt16
+        else:
+            datatype = gdal.GDT_Float32
+
+        # 判读数组维数
+        if len(b.shape) == 3:
+            im_bands, im_height, im_width = b.shape
+        else:
+            im_bands, (im_height, im_width) = 1, b.shape
+
+        # 创建文件
+        driver = gdal.GetDriverByName("GTiff")  # 数据类型必须有，因为要计算需要多大内存空间
+        dataset = driver.Create(filepath, im_width, im_height, im_bands, datatype)
+
+        dataset.SetGeoTransform(im_geotrans)  # 写入仿射变换参数
+        dataset.SetProjection(im_proj)  # 写入投影
+
+        if im_bands == 1:
+
+            dataset.GetRasterBand(1).WriteArray(b)  # 写入数组数据
+
+        else:
+            for i in range(im_bands):
+
+                dataset.GetRasterBand(i + 1).WriteArray(b[i])
+
+
+        del dataset
+
     def write_image_file(self, path, obj_name):
         dic = {}
         dataset = gdal.Open(path)
@@ -21,10 +60,10 @@ class RadosConn():
         bandda = dataset.GetRasterBand(1)
         #dic['dayData'] = bandda.ReadRaster(0, 0, dic['im_width'], dic['im_height'])#.tobytes().decode('utf-8')
         img = bandda.ReadRaster(0, 0, dic['im_width'], dic['im_height'])
-        #dic['im_geotrans'] = dataset.GetGeoTransform()
+        dic['im_geotrans'] = dataset.GetGeoTransform()
         dic['im_proj'] = dataset.GetProjection()
         del dataset
-
+        self.write_img('copy/obj_name.tif', dic['im_proj'], dic['im_geotrans'], img)
         #self.ioctx.write(obj_name, img)
         #for key,value in dic.items():
             #self.ioctx.set_xattr(obj_name, key, str(value))
