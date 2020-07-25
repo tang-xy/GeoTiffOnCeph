@@ -5,9 +5,10 @@ from RadosConn import RadosConn
 
 if __name__ == "__main__":
     cluster = RadosConn(pool_name='mosic2003')
+    keylist = cluster.read_all_image_key()
     start = time()
     print("Start: " + str(start))
-    for key in cluster.read_all_image_key():
+    for key in keylist:
         temp = cluster.read_image_rados(key)
     stop = time()
     print("Stop: " + str(stop))
