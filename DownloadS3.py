@@ -29,7 +29,7 @@ if __name__ == "__main__":
     all_objects = cephs3_boto3.s3_client.list_objects(Bucket = 'mosic2003')
     obj_names = [obj['Key'] for obj in all_objects['Contents']]
     for obj_key in obj_names:
-        # print(cephs3_boto3.download(obj_key))
+        cephs3_boto3.download(obj_key)
     stop = time()
     print("Stop: " + str(stop))
     print(str(stop-start) + "秒")
