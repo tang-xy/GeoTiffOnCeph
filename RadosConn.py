@@ -23,8 +23,8 @@ class RadosConn():
         for obj in self.ioctx.list_objects():
             obj.read()
             dic = {}
-            for k, v in obj.get_xattrs():
-                dic[k] = v
+            #for k, v in obj.get_xattrs():
+            #    dic[k] = v
     
     def read_all_image_key(self):
         keylist = []
