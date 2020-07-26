@@ -8,8 +8,9 @@ if __name__ == "__main__":
     keylist = cluster.read_all_image_key()
     start = time()
     print("Start: " + str(start))
-    for key in keylist:
-        temp = cluster.read_image_rados(key)
+    # for key in keylist:
+    #     temp = cluster.read_image_rados(key)
+    cluster.read_all_image_rados()
     stop = time()
     print("Stop: " + str(stop))
     print(str(stop-start) + "秒")

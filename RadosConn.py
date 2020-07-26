@@ -19,9 +19,12 @@ class RadosConn():
             dic[k] = v
         return dic
 
-    def read_all_image_rados(self, do_for_each_obj):
+    def read_all_image_rados(self):
         for obj in self.ioctx.list_objects():
-            do_for_each_obj(obj)
+            obj.read()
+            dic = {}
+            for k, v in obj.get_xattrs():
+                dic[k] = v
     
     def read_all_image_key(self):
         keylist = []
