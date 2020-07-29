@@ -1,22 +1,21 @@
-from pyspark import SparkConf,SparkContext
-from pyspark.sql import SQLContext, Row
+# coding:utf-8
+import sys, re
+from operator import add
+from pyspark.sql import SparkSession
+  
+spark = SparkSession\
+  .builder\
+  .appName("PythonWordCount")\
+  .getOrCreate()
 
-string_test = 'pyspark_test'
-conf = SparkConf().setAppName(string_test).setMaster('yarn')
-sc=SparkContext(conf=conf)
-sqlContext = SQLContext(sc)
+# Access the file  
+lines = spark.read.text("/tmp/test.txt").rdd.map(lambda r: r[0])
+counts = lines.flatMap(lambda x: x.split(' ')) \
+  .map(lambda x: (x, 1)) \
+  .reduceByKey(add) \
+  .sortBy(lambda x: x[1], False)
+output = counts.collect()
+for (word, count) in output:
+  print("%s: %i" % (word, count))
 
-# 加载文本文件并转换成Row.
-lines = sc.textFile("/tmp/examples/test.txt")
-parts = lines.map(lambda l: l.split(","))
-people = parts.map(lambda p: Row(name=p[0], age=int(p[1])))
-
-# 将DataFrame注册为table.
-schemaPeople = sqlContext.createDataFrame(people)
-schemaPeople.registerTempTable("people")
-
-# 执行sql查询，查下条件年龄在13岁到19岁之间
-teenagers = sqlContext.sql("SELECT name,age FROM people WHERE age >= 60 AND age <= 70")
-
-# 将查询结果保存至hdfs中
-teenagers.write.save("/tmp/examples/teenagers")
+spark.stop()
