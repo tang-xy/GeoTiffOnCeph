@@ -10,12 +10,12 @@ spark = SparkSession\
 
 # Access the file  
 lines = spark.read.text("/tmp/test.txt").rdd.map(lambda r: r[0])
-counts = lines.flatMap(lambda x: x.split(' ')) \
-  .map(lambda x: (x, 1)) \
-  .reduceByKey(add) \
-  .sortBy(lambda x: x[1], False)
-output = counts.collect()
-for (word, count) in output:
-  print("%s: %i" % (word, count))
+# counts = lines.flatMap(lambda x: x.split(',')) \
+#   .map(lambda x: (x, 1)) \
+#   .reduceByKey(add) \
+#   .sortBy(lambda x: x[1], False)
+# output = counts.collect()
+# for (word, count) in output:
+#   print("%s: %i" % (word, count))
 
 spark.stop()
