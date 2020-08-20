@@ -7,7 +7,6 @@ from pyspark.conf import SparkConf
 if __name__ == "__main__":
     spark = SparkSession\
             .builder\
-            .config(conf = SparkConf())\
             .getOrCreate()
     sc = spark.sparkContext
     a = sc.parallelize([1, 2, 3])
