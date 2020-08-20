@@ -4,7 +4,7 @@ from operator import add
 from pyspark.sql import SparkSession
 from pyspark.conf import SparkConf
   
-conf=SparkConf().setAppName("miniProject").setMaster("local[*]")
+conf=SparkConf().setAppName("miniProject").setMaster("spark：// master：7077")
 spark = SparkSession\
   .builder\
   .appName("PythonWordCount")\
@@ -14,8 +14,8 @@ spark = SparkSession\
 # Access the file  
 sc = spark.sparkContext
 a = sc.parallelize([1, 2, 3])
-b = a.flatMap(lambda x: (x,x ** 2))
 print(a.collect())
+b = a.flatMap(lambda x: (x,x ** 2))
 print(b.collect())
 # counts = lines.flatMap(lambda x: x.split(',')) \
 #   .map(lambda x: (x, 1)) \
