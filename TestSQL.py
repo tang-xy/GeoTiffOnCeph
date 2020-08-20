@@ -8,7 +8,7 @@ conf=SparkConf().setAppName("miniProject").setMaster("local[*]")
 spark = SparkSession\
   .builder\
   .appName("PythonWordCount")\
-  .config(conf = conf)
+  .config(conf = conf)\
   .getOrCreate()
 
 # Access the file  
