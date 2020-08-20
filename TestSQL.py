@@ -9,7 +9,11 @@ spark = SparkSession\
   .getOrCreate()
 
 # Access the file  
-lines = spark.read.text("/tmp/test.txt").rdd.map(lambda r: r[0])
+sc = spark.sparkContext
+a = sc.parallelize([1, 2, 3])
+b = a.flatMap(lambda x: (x,x ** 2))
+print(a.collect())
+print(b.collect())
 # counts = lines.flatMap(lambda x: x.split(',')) \
 #   .map(lambda x: (x, 1)) \
 #   .reduceByKey(add) \
