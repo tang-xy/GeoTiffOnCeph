@@ -4,7 +4,7 @@ from operator import add
 from pyspark.sql import SparkSession
 from pyspark.conf import SparkConf
   
-conf=SparkConf().setAppName("miniProject").setMaster("spark://master:7077")
+conf=SparkConf().setAppName("miniProject").setMaster("spark://localhost:7077")
 spark = SparkSession\
   .builder\
   .appName("PythonWordCount")\
