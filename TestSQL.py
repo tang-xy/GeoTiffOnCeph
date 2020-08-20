@@ -2,10 +2,13 @@
 import sys, re
 from operator import add
 from pyspark.sql import SparkSession
+from pyspark.conf import SparkConf
   
+conf=SparkConf().setAppName("miniProject").setMaster("local[*]")
 spark = SparkSession\
   .builder\
   .appName("PythonWordCount")\
+  .config(conf = conf)
   .getOrCreate()
 
 # Access the file  
