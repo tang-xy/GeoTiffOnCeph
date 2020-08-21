@@ -6,18 +6,6 @@ from time import time
 import json
 # 新版本boto3
 
-def RsImage(filepath):
-    dic = {}
-    dataset = gdal.Open(filepath)
-    dic['im_width'] = dataset.RasterXSize
-    dic['im_height'] = dataset.RasterYSize
-    bandda = dataset.GetRasterBand(1)
-    #dic['dayData'] = bandda.ReadRaster(0, 0, dic['im_width'], dic['im_height'])#.tobytes().decode('utf-8')
-    img = bandda.ReadRaster(0, 0, dic['im_width'], dic['im_height'])
-    dic['im_geotrans'] = dataset.GetGeoTransform()
-    dic['im_proj'] = dataset.GetProjection()
-    del dataset
-    return dic, img
 
 if __name__ == "__main__":
     # boto3

@@ -3,10 +3,10 @@ from boto3.session import Session
 class CephS3BOTO3():
 
     def __init__(self):
-        access_key = '8ETYBTBV4Z91JESIA0AV'
-        secret_key = 'OQVA7pzM8wapjWccKKxTB13ju0CVMN9W0PYe7maB'
+        access_key = '6S75J41Q2S86GT8FD1ND'
+        secret_key = 'GP7W6AOKTHrP3iDFzadtGBYTiuLsTXbMaC2XceB8'
         self.session = Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key)
-        self.url = 'http://instance-1:7480'
+        self.url = 'http://instance-2:7480'
         self.s3_client = self.session.client('s3', endpoint_url=self.url)
         self.bucket_name = 'mosic2003'
 
