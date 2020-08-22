@@ -2,7 +2,7 @@
 
 from time import time
 
-# number = 1000
+# number = 100
 def timeit_wrapper(func, *args, **kwargs):
     def wrapped():
         for i in range(1000):
