@@ -5,7 +5,7 @@ from time import time
 # number = 100
 def timeit_wrapper(func, *args, **kwargs):
     def wrapped():
-        for i in range(1000):
+        for i in range(100):
             start = time()
             re = func(*args, **kwargs)
             stop = time()
