@@ -2,6 +2,7 @@
 import sys, os
 from Ceph3BoTo3 import CephS3BOTO3
 from TestHDFS import HdfsEditor
+from time import time
 
 def createtif(filepath):
     filename, fileend = os.path.splitext(filepath)
@@ -28,8 +29,12 @@ if __name__ == "__main__":
     model = "upload"
     #model = sys.argv[2]
     if model == 'upload':
+        start = time()
+        print("Start: " + str(start))
         if False:
             do_foreach_file('32652(copy)/5104', createtif)
         upload_tif()
-        
+        stop = time()
+        print("Stop: " + str(stop))
+        print(str(stop-start) + "秒")
         
