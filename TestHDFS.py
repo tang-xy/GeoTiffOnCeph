@@ -22,11 +22,15 @@ def do_foreach_file(url, func):
         else:
             print("其他情况:" + real_path)
 
-@timeit_wrapper
+# @timeit_wrapper
 def upload_tif():
     client_hdfs = HdfsEditor()
-    client_hdfs.upload('/gf1', '32652(copy)')
-    client_hdfs.delete('/gf1', recursive  = True)
+    for i in range(100):
+        start = time()
+        client_hdfs.upload('/gf1', '32652(copy)')
+        client_hdfs.delete('/gf1', recursive  = True)
+        stop = time()
+        print('第{0}次，{1}秒'.format(i, str(stop-start)))
 
 
 if __name__ == "__main__":
