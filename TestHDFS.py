@@ -2,6 +2,7 @@
 import sys, os
 from Ceph3BoTo3 import CephS3BOTO3
 from HdfsEditor import HdfsEditor
+from hdfs import InsecureClient
 from time import time
 from MyTimeit import timeit_wrapper
 
@@ -24,7 +25,7 @@ def do_foreach_file(url, func):
 
 # @timeit_wrapper
 def upload_tif():
-    client_hdfs = HdfsEditor()
+    client_hdfs = InsecureClient('http://instance-2:9870',user='hdfs')
     for i in range(100):
         start = time()
         client_hdfs.upload('/gf1', '32652(copy)')
