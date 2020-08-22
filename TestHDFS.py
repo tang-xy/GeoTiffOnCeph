@@ -37,14 +37,22 @@ def upload_tif():
 if __name__ == "__main__":
     #model = "upload&delete"
     model = sys.argv[2]
-    if model == 'upload&delete':
+    if model == 'create_upload_delete':
+        if True:
+            do_foreach_file('32652(copy)/5104', createtif)
         start = time()
         print("Start: " + str(start))
-        if True:
+        upload_tif()
+        stop = time()
+        print("Stop: " + str(stop))
+        print("总耗时" + str(stop-start) + "秒")
+    elif model == 'upload_delete':
+        start = time()
+        print("Start: " + str(start))
+        if False:
             do_foreach_file('32652(copy)/5104', createtif)
         upload_tif()
         stop = time()
         print("Stop: " + str(stop))
         print("总耗时" + str(stop-start) + "秒")
-    
         
