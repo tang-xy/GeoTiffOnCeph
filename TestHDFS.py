@@ -22,7 +22,7 @@ def do_foreach_file(url, func):
 
 def upload_tif():
     client_hdfs = HdfsEditor()
-    client_hdfs.upload('/gf1', '32652')
+    client_hdfs.upload('/gf1', '32652(copy)')
 
 
 if __name__ == "__main__":
