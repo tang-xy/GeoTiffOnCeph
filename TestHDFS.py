@@ -3,12 +3,14 @@ import sys, os
 from Ceph3BoTo3 import CephS3BOTO3
 from HdfsEditor import HdfsEditor
 from time import time
+from MyTimeit import timeit_wrapper
 
 def createtif(filepath):
     filename, fileend = os.path.splitext(filepath)
     if fileend == '.tfw':
         tiffile = open(filename + ".tif","w+")
         tiffile.write(str([i for i in range(800000)]))
+
 
 def do_foreach_file(url, func):
     for f in os.listdir(url):
@@ -20,15 +22,17 @@ def do_foreach_file(url, func):
         else:
             print("其他情况:" + real_path)
 
+@timeit_wrapper
 def upload_tif():
     client_hdfs = HdfsEditor()
     client_hdfs.upload('/gf1', '32652(copy)')
+    client_hdfs.delete('/gf1', recursive  = True)
 
 
 if __name__ == "__main__":
-    model = "upload"
+    model = "upload&delete"
     #model = sys.argv[2]
-    if model == 'upload':
+    if model == 'upload&delete':
         start = time()
         print("Start: " + str(start))
         if False:
@@ -36,5 +40,6 @@ if __name__ == "__main__":
         upload_tif()
         stop = time()
         print("Stop: " + str(stop))
-        print(str(stop-start) + "秒")
+        print("总耗时" + str(stop-start) + "秒")
+    
         
