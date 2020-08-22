@@ -1,7 +1,7 @@
 # coding:utf-8
 import sys, os
 from Ceph3BoTo3 import CephS3BOTO3
-from TestHDFS import HdfsEditor
+from HdfsEditor import HdfsEditor
 from time import time
 
 def createtif(filepath):
