@@ -1,23 +1,35 @@
 # coding:utf-8
 import sys, os
+from Ceph3BoTo3 import CephS3BOTO3
+from TestHDFS import HdfsEditor
 
+def createtif(filepath):
+    filename, fileend = os.path.splitext(filepath)
+    if fileend == '.tfw':
+        tiffile = open(filename + ".tif","w+")
+        tiffile.write(str([i for i in range(800000)]))
 
-def createtif(url):
+def do_foreach_file(url, func):
     for f in os.listdir(url):
         real_path=os.path.join(url,f)
         if os.path.isfile(real_path):
-            filename, fileend = os.path.splitext(real_path)
-            if fileend == '.tfw':
-                tiffile = open(filename + ".tif","w+")
-                tiffile.write(str([i for i in range(800000)]))
+            func(real_path)
         elif os.path.isdir(real_path):
-            createtif(real_path)
+            do_foreach_file(real_path, createtif)
         else:
             print("其他情况:" + real_path)
 
+def upload_tif():
+    client_hdfs = HdfsEditor()
+    client_hdfs.upload('/gf1', '32652')
 
 
 if __name__ == "__main__":
-    #if sys.argv[2] = 'upload':
-    if True:
-        createtif('32652(copy)/5104')
+    model = "upload"
+    #model = sys.argv[2]
+    if model == 'upload':
+        if False:
+            do_foreach_file('32652(copy)/5104', createtif)
+        upload_tif()
+        
+        
