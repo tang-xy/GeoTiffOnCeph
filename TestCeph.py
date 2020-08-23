@@ -14,10 +14,10 @@ def upload_ceph(path):
 
 def upload_delete_tif():
     global ceph_editor
-    for i in range(60):
+    for i in range(5):
         start = time()
         do_foreach_file('32652(copy)/5104', upload_ceph)
-        ceph_editor.delete_all()
+        ceph_editor.delete_all_by_client()
         stop = time()
         print('第{0}次，{1}秒'.format(i, str(stop-start)))
 

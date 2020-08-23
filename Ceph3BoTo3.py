@@ -33,7 +33,7 @@ class CephS3BOTO3():
         print(resp)
         return resp
 
-    def delete_all(self):
+    def delete_all_by_client(self):
         resp = self.s3_client.list_objects(Bucket = self.bucket_name)
         keylist = [{ 'Key' : obj["Key"] } for obj in resp['Contents']]
         self.s3_client.delete_objects(
