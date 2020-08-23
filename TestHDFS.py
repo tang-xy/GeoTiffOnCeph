@@ -19,7 +19,7 @@ def do_foreach_file(url, func):
         if os.path.isfile(real_path):
             func(real_path)
         elif os.path.isdir(real_path):
-            do_foreach_file(real_path, createtif)
+            do_foreach_file(real_path, func)
         else:
             print("其他情况:" + real_path)
 
