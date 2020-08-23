@@ -7,8 +7,9 @@ class CephS3BOTO3():
         secret_key = 'GP7W6AOKTHrP3iDFzadtGBYTiuLsTXbMaC2XceB8'
         self.session = Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key)
         self.url = 'http://instance-2:7480'
-        self.s3_client = self.session.client('s3', endpoint_url=self.url)
+        self.s3_client = self.session.client('s3', endpoint_url = self.url)
         self.bucket_name = bucket_name
+        self.s3_resource = self.session.resource('s3', endpoint_url = self.url)
 
     def get_bucket(self):
         buckets = [bucket['Name'] for bucket in self.s3_client.list_buckets()['Buckets']]
@@ -34,7 +35,7 @@ class CephS3BOTO3():
 
     def delete_all(self):
         resp = self.s3_client.list_objects(Bucket = self.bucket_name)
-        keylist = [obj["Key"] for obj in resp['Contents']]
+        keylist = [{ 'Key' : obj["Key"] } for obj in resp['Contents']]
         self.s3_client.delete_objects(
             Bucket = self.bucket_name,
             Delete = {
