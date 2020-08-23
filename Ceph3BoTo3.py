@@ -32,6 +32,23 @@ class CephS3BOTO3():
         print(resp)
         return resp
 
+    def delete_all(self):
+        resp = self.s3_client.list_objects(Bucket = self.bucket_name)
+        keylist = [obj["Key"] for obj in resp['Contents']]
+        self.s3_client.delete_objects(
+            Bucket = self.bucket_name,
+            Delete = {
+                'Objects': keylist
+            }
+        )
+
+    def upload_file(self, file_path, obj_name):
+        return self.s3_client.upload_file(
+            file_path, self.bucket_name, obj_name,
+            ExtraArgs={'ACL': 'public-read-write'}
+        )
+
+
     def download(self, obj_name):
         resp = self.s3_client.get_object(
             Bucket = self.bucket_name,
