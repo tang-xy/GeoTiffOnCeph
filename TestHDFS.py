@@ -39,7 +39,10 @@ if __name__ == "__main__":
     model = sys.argv[2]
     if model == 'create_upload_delete':
         if True:
+            start = time()
             do_foreach_file('32652(copy)/5104', createtif)
+            stop = time()
+            print("写入耗时" + str(stop-start) + "秒")
         start = time()
         print("Start: " + str(start))
         upload_tif()
