@@ -65,8 +65,9 @@ if __name__ == "__main__":
         print("Stop: " + str(stop))
         print("总耗时" + str(stop-start) + "秒")
     elif model == 'upload_download':
+        do_foreach_file('32652(copy)/5104', createtif)
         if client_hdfs.content('/gf1',False) == None:
-            do_foreach_file('32652(copy)/5104', createtif)
+            
             client_hdfs.upload('/gf1', '32652(copy)')
         start = time()
         print("Start: " + str(start))
