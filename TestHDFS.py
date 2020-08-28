@@ -35,7 +35,7 @@ def upload_tif(client_hdfs):
 def download_tif(client_hdfs):
     for i in range(60):
         start = time()
-        client_hdfs.download('/gf1', '32652(new)', overwrite = True)
+        client_hdfs.download('/gf1', '32652(copy)', overwrite = True)
         stop = time()
         print('第{0}次，{1}秒'.format(i, str(stop-start)))
 
