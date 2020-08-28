@@ -42,6 +42,9 @@ class CephS3BOTO3():
                 'Objects': keylist
             }
         )
+    
+    def delete_all_by_resource(self):
+        bucket = self.s3_resource.Bucket(self.bucket_name)
 
     def upload_file(self, file_path, obj_name):
         return self.s3_client.upload_file(
