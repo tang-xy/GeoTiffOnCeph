@@ -10,7 +10,7 @@ def createtif(filepath):
     filename, fileend = os.path.splitext(filepath)
     if fileend == '.tfw':
         tiffile = open(filename + ".tif","w+")
-        tiffile.write(str([i for i in range(800000)]))
+        tiffile.write(str([i for i in range(80000)]))
 
 
 def do_foreach_file(url, func):
@@ -33,7 +33,7 @@ def upload_tif(client_hdfs):
         print('第{0}次，{1}秒'.format(i, str(stop-start)))
 
 def download_tif(client_hdfs):
-    for i in range(60):
+    for i in range(600):
         start = time()
         client_hdfs.download('/gf1', '32652(copy)', overwrite = True)
         stop = time()
@@ -66,6 +66,7 @@ if __name__ == "__main__":
         print("总耗时" + str(stop-start) + "秒")
     elif model == 'upload_download':
         if client_hdfs.content('/gf1',False) == None:
+            do_foreach_file('32652(copy)/5104', createtif)
             client_hdfs.upload('/gf1', '32652(copy)')
         start = time()
         print("Start: " + str(start))
