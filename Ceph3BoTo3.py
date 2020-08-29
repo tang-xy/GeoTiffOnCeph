@@ -46,7 +46,7 @@ class CephS3BOTO3():
     def download_all_file(self, path):
         bucket = self.s3_resource.Bucket(self.bucket_name)
         for obj in bucket.objects.all():
-            obj.download_file(path + '/' + obj.key)
+            obj.Object().download_file(path + '/' + obj.key)
 
     def delete_all_by_resource(self):
         bucket = self.s3_resource.Bucket(self.bucket_name)
