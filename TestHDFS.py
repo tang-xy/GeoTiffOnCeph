@@ -69,7 +69,6 @@ if __name__ == "__main__":
         do_foreach_file('32652(copy)/5104', createtif)
         client_hdfs.delete('/gf1', recursive  = True)
         if client_hdfs.content('/gf1',False) == None:
-            
             client_hdfs.upload('/gf1', '32652(copy)')
         start = time()
         print("Start: " + str(start))
