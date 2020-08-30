@@ -72,7 +72,7 @@ if __name__ == "__main__":
         start = time()
         print("Start: " + str(start))
         #download_tif(client_hdfs)
-        for i in client_hdfs.walk('/gf1/5104', depth = 3):
+        for i in client_hdfs.walk('/gf1/5104', depth = 2):
             print(i)
         stop = time()
         print("Stop: " + str(stop))
