@@ -36,7 +36,7 @@ def download_tif(client_hdfs):
     for i in range(10):
         start = time()
         for root, dir, filenames in client_hdfs.walk('/gf1/5104'):
-            if filename != []:
+            if filenames != []:
                 for filename in filenames:
                     real_path = os.path.join(root, filename)
                     client_hdfs.download(real_path, '32652(new)/' + filename, overwrite = True)
