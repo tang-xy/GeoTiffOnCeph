@@ -9,8 +9,8 @@
     "keys": [
         {
             "user": "testuser",
-            "access_key": "6S75J41Q2S86GT8FD1ND",
-            "secret_key": "GP7W6AOKTHrP3iDFzadtGBYTiuLsTXbMaC2XceB8"
+            "access_key": "82LAAKYAP3LJFZ80VBP5",
+            "secret_key": "nxBdnqSJICHl4PeqrKqOQDn17rKI93nyWPtTrKwe"
         }
     ],
     "swift_keys": [],
@@ -52,14 +52,14 @@
     "keys": [
         {
             "user": "testuser",
-            "access_key": "6S75J41Q2S86GT8FD1ND",
-            "secret_key": "GP7W6AOKTHrP3iDFzadtGBYTiuLsTXbMaC2XceB8"
+            "access_key": "82LAAKYAP3LJFZ80VBP5",
+            "secret_key": "nxBdnqSJICHl4PeqrKqOQDn17rKI93nyWPtTrKwe"
         }
     ],
     "swift_keys": [
         {
             "user": "testuser:swift",
-            "secret_key": "meKCLGhS2HrmwSs4bvFSSZMMO81ZGWSih60vjYOO"
+            "secret_key": "MaUm6mbmTOVH778NF6QTrbxir3DbeZE7oiRU8HsN"
         }
     ],
     "caps": [],
@@ -84,6 +84,7 @@
     "type": "rgw",
     "mfa_ids": []
 }
+
 {
     "user_id": "testuser",
     "display_name": "First User",
@@ -100,14 +101,14 @@
     "keys": [
         {
             "user": "testuser",
-            "access_key": "6S75J41Q2S86GT8FD1ND",
-            "secret_key": "GP7W6AOKTHrP3iDFzadtGBYTiuLsTXbMaC2XceB8"
+            "access_key": "82LAAKYAP3LJFZ80VBP5",
+            "secret_key": "nxBdnqSJICHl4PeqrKqOQDn17rKI93nyWPtTrKwe"
         }
     ],
     "swift_keys": [
         {
             "user": "testuser:swift",
-            "secret_key": "V5qaf7FgK0htodBfHtVTz3bpctOWVCxATknbvl4q"
+            "secret_key": "F4ypFvqIVCTvt587U6XibfZck4MOtohEptAq2FIp"
         }
     ],
     "caps": [],

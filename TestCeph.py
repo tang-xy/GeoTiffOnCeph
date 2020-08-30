@@ -40,5 +40,3 @@ if __name__ == "__main__":
     stop = time()
     print("Stop: " + str(stop))
     print("总耗时" + str(stop-start) + "秒")
-    
-    
