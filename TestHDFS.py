@@ -15,7 +15,7 @@ def createtif(filepath):
 
 def do_foreach_file(url, func):
     for f in os.listdir(url):
-        real_path=os.path.join(url,f)
+        real_path = os.path.join(url,f)
         if os.path.isfile(real_path):
             func(real_path)
         elif os.path.isdir(real_path):
@@ -33,9 +33,13 @@ def upload_tif(client_hdfs):
         print('第{0}次，{1}秒'.format(i, str(stop-start)))
 
 def download_tif(client_hdfs):
-    for i in range(600):
+    for i in range(10):
         start = time()
-        client_hdfs.download('/gf1', '32652(copy)', overwrite = True)
+        for root, dir, filenames in client_hdfs.walk('/gf1/5104'):
+            if filename != []:
+                for filename in filenames:
+                    real_path = os.path.join(root, filename)
+                    client_hdfs.download(real_path, '32652(new)/' + filename, overwrite = True)
         stop = time()
         print('第{0}次，{1}秒'.format(i, str(stop-start)))
 
@@ -71,9 +75,7 @@ if __name__ == "__main__":
             client_hdfs.upload('/gf1', '32652(copy)')
         start = time()
         print("Start: " + str(start))
-        #download_tif(client_hdfs)
-        for i in client_hdfs.walk('/gf1/5104', depth = 2):
-            print(i)
+        download_tif(client_hdfs)
         stop = time()
         print("Stop: " + str(stop))
         print("总耗时" + str(stop-start) + "秒")
