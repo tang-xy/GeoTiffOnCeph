@@ -39,7 +39,7 @@ def download_tif(client_hdfs):
             if filenames != []:
                 for filename in filenames:
                     real_path = os.path.join(root, filename)
-                    client_hdfs.download(real_path, '32652(new)/' + filename, overwrite = True)
+                    client_hdfs.download(real_path, '32652_new/' + filename, overwrite = True)
         stop = time()
         print('第{0}次，{1}秒'.format(i, str(stop-start)))
 
