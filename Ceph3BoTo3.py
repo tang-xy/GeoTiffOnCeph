@@ -53,7 +53,7 @@ class CephS3BOTO3():
             self.s3_client.download_file(
                 Bucket = self.bucket_name,
                 Key = key,
-                Filename = '32652(new)/' + key
+                Filename = path + '/' + key
             )
 
     def delete_all_by_resource(self):

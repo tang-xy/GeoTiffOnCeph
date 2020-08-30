@@ -13,9 +13,9 @@ def upload_ceph(path):
     ceph_editor.upload_file(path, basename)
 
 def download_tif():
-    for i in range(10):
+    for i in range(5):
         start = time()
-        ceph_editor.download_all_file('32652(copy)/5104')
+        ceph_editor.download_all_file('32652_new')
         stop = time()
         print('第{0}次，{1}秒'.format(i, str(stop-start)))
 
