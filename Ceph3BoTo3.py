@@ -10,6 +10,7 @@ class CephS3BOTO3():
         self.s3_client = self.session.client('s3', endpoint_url = self.url)
         self.bucket_name = bucket_name
         self.s3_resource = self.session.resource('s3', endpoint_url = self.url)
+        self.bucket = None
 
     def get_bucket(self):
         buckets = [bucket['Name'] for bucket in self.s3_client.list_buckets()['Buckets']]
@@ -58,6 +59,16 @@ class CephS3BOTO3():
 
     def delete_all_by_resource(self):
         bucket = self.s3_resource.Bucket(self.bucket_name)
+
+    def download_dir(self, bucket_prefix, path):
+        if self.bucket == None:
+            self.bucket = self.s3_resource.Bucket(self.bucket_name)
+        objs = self.bucket.objects.filter(Prefix = bucket_prefix)
+        for obj in objs:
+            self.bucket.download_file(
+                Key = obj.key,
+                Filename = path + '/' + obj.key
+            )
 
     def upload_file(self, file_path, obj_name):
         return self.s3_client.upload_file(
