@@ -1,5 +1,5 @@
 # coding:utf-8
-import numpy as np
+#import numpy as np
 class GridCalculate:
     @staticmethod
     def IntToString(iInput, iResultLength):
@@ -78,7 +78,8 @@ class GridCalculate:
     @staticmethod
     def GetCodeOfGrid(sGridCode):
         '''给定一个格网编码,返回一个4位长度的整型数组，分别为HkmY，HkmX，TkmY，TkmX'''
-        iaGridCode = np.empty((4), dtype=int)
+        # iaGridCode = np.empty((4), dtype=int)
+        iaGridCode = [0] * 4
 
         iaGridCode[0] = int(sGridCode[0: 2])
         iaGridCode[1] = int(sGridCode[2: 4])
@@ -98,7 +99,8 @@ class GridCalculate:
             4 HkmRlt = HkmNum + qt, TkmRlt = TkmNum + rd
         '''
         iSum = iTkmNum + iDistance
-        HTkmRlt = np.empty((2), dtype=int)
+        # HTkmRlt = np.empty((2), dtype=int)
+        HTkmRlt = [0] * 2
         iQt = int(iSum / 10)
         iRd = iSum % 10
         if iRd < 0:
@@ -118,10 +120,14 @@ class GridCalculate:
             6 根据分块节点值，组合各数据块的左上右下格网编码
         '''
         CalculateOffset = GridCalculate.CalculateOffset
-        iaQtRdX = np.empty((2), dtype=int) # 一维列数组，第1行：总格网数与块单元x方向的格网数的商；第2行：总格网数与块单元x方向的格网数的余数
-        iaQtRdY = np.empty((2), dtype=int) # 一维列数组，第1行：总格网数与块单元y方向的格网数的商；第2行：总格网数与块单元y方向的格网数的余数
-        iaGridCodeTempLT = np.empty((4), dtype=int)
-        iaGridCodeTempRB = np.empty((4), dtype=int)
+        # iaQtRdX = np.empty((2), dtype=int) # 一维列数组，第1行：总格网数与块单元x方向的格网数的商；第2行：总格网数与块单元x方向的格网数的余数
+        # iaQtRdY = np.empty((2), dtype=int) # 一维列数组，第1行：总格网数与块单元y方向的格网数的商；第2行：总格网数与块单元y方向的格网数的余数
+        # iaGridCodeTempLT = np.empty((4), dtype=int)
+        # iaGridCodeTempRB = np.empty((4), dtype=int)
+        iaQtRdX = [0] * 2 # 一维列数组，第1行：总格网数与块单元x方向的格网数的商；第2行：总格网数与块单元x方向的格网数的余数
+        iaQtRdY = [0] * 2 # 一维列数组，第1行：总格网数与块单元y方向的格网数的商；第2行：总格网数与块单元y方向的格网数的余数
+        iaGridCodeTempLT = [0] * 4
+        iaGridCodeTempRB = [0] * 4
 
         iaGridCodeLT = GridCalculate.GetCodeOfGrid(sGridCodeLT)
         iaGridCodeRB = GridCalculate.GetCodeOfGrid(sGridCodeRB)
@@ -138,59 +144,61 @@ class GridCalculate:
             iXBlocksNum = iaQtRdX[0] + 2
         else:
             iXBlocksNum = iaQtRdX[0] + 1
-        iaXBlocks = np.empty((iXBlocksNum, 2), dtype=int)
+        # iaXBlocks = np.empty((iXBlocksNum, 2), dtype=int)
+        iaXBlocks = [[0] * 2] * iXBlocksNum
 
         if iaQtRdY[1] != 0:
             iYBlocksNum = iaQtRdY[0] + 2
         else:
             iYBlocksNum = iaQtRdY[0] + 1
-        iaYBlocks = np.empty((iYBlocksNum, 2), dtype=int)
+        # iaYBlocks = np.empty((iYBlocksNum, 2), dtype=int)
+        iaYBlocks = [[0] * 2] * iYBlocksNum
 
-        iaXBlocks[0, 0] = iaGridCodeLT[1]
-        iaXBlocks[0, 1] = iaGridCodeLT[3]
-        iaXBlocks[iXBlocksNum - 1, 0] = iaGridCodeRB[1]
-        iaXBlocks[iXBlocksNum - 1, 1] = iaGridCodeRB[3]
+        iaXBlocks[0][0] = iaGridCodeLT[1]
+        iaXBlocks[0][1] = iaGridCodeLT[3]
+        iaXBlocks[iXBlocksNum - 1][0] = iaGridCodeRB[1]
+        iaXBlocks[iXBlocksNum - 1][1] = iaGridCodeRB[3]
         for i in range(1, iXBlocksNum - 1):
-            iaXBlocks[i] = CalculateOffset(iaXBlocks[i - 1, 0], iaXBlocks[i - 1, 1], iXBlocksLth)
+            iaXBlocks[i] = CalculateOffset(iaXBlocks[i - 1][0], iaXBlocks[i - 1][1], iXBlocksLth)
 
-        iaYBlocks[0, 0] = iaGridCodeLT[0]
-        iaYBlocks[0, 1] = iaGridCodeLT[2]
-        iaYBlocks[iYBlocksNum - 1, 0] = iaGridCodeRB[0]
-        iaYBlocks[iYBlocksNum - 1, 1] = iaGridCodeRB[2]
+        iaYBlocks[0][0] = iaGridCodeLT[0]
+        iaYBlocks[0][1] = iaGridCodeLT[2]
+        iaYBlocks[iYBlocksNum - 1][0] = iaGridCodeRB[0]
+        iaYBlocks[iYBlocksNum - 1][1] = iaGridCodeRB[2]
         for i in range(1, iYBlocksNum - 1):
-            iaYBlocks[i] = CalculateOffset(iaYBlocks[i - 1, 0], iaYBlocks[i - 1, 1], -iYBlocksLth)
+            iaYBlocks[i] = CalculateOffset(iaYBlocks[i - 1][0], iaYBlocks[i - 1][1], -iYBlocksLth)
         lsGridCodeLTRB = []
         for j in range(iYBlocksNum - 1):
             for i in range(iXBlocksNum - 1):
-                iaGridCodeTempLT[0] = iaYBlocks[j, 0]
-                iaGridCodeTempLT[2] = iaYBlocks[j, 1]
-                iaGridCodeTempLT[1] = iaXBlocks[i, 0]
-                iaGridCodeTempLT[3] = iaXBlocks[i, 1]
+                iaGridCodeTempLT[0] = iaYBlocks[j][0]
+                iaGridCodeTempLT[2] = iaYBlocks[j][1]
+                iaGridCodeTempLT[1] = iaXBlocks[i][0]
+                iaGridCodeTempLT[3] = iaXBlocks[i][1]
                 if i != (iXBlocksNum - 2) and j != (iYBlocksNum - 2):
-                    iaTempY = CalculateOffset(iaYBlocks[j + 1, 0], iaYBlocks[j + 1, 1], 1)
-                    iaTempX = CalculateOffset(iaXBlocks[i + 1, 0], iaXBlocks[i + 1, 1], -1)
+                    iaTempY = CalculateOffset(iaYBlocks[j + 1][0], iaYBlocks[j + 1][1], 1)
+                    iaTempX = CalculateOffset(iaXBlocks[i + 1][0], iaXBlocks[i + 1][1], -1)
                     iaGridCodeTempRB[0] = iaTempY[0]
                     iaGridCodeTempRB[2] = iaTempY[1]
                     iaGridCodeTempRB[1] = iaTempX[0]
                     iaGridCodeTempRB[3] = iaTempX[1]
                 elif i == (iXBlocksNum - 2) and j != (iYBlocksNum - 2):
-                    iaTempY = CalculateOffset(iaYBlocks[j + 1, 0], iaYBlocks[j + 1, 1], 1)
+                    iaTempY = CalculateOffset(iaYBlocks[j + 1][0], iaYBlocks[j + 1][1], 1)
                     iaGridCodeTempRB[0] = iaTempY[0]
                     iaGridCodeTempRB[2] = iaTempY[1]
-                    iaGridCodeTempRB[1] = iaXBlocks[i + 1, 0]
-                    iaGridCodeTempRB[3] = iaXBlocks[i + 1, 1]
+                    iaGridCodeTempRB[1] = iaXBlocks[i + 1][0]
+                    iaGridCodeTempRB[3] = iaXBlocks[i + 1][1]
                 elif i != (iXBlocksNum - 2) and j == (iYBlocksNum - 2):
-                    iaTempX = CalculateOffset(iaXBlocks[i + 1, 0], iaXBlocks[i + 1, 1], -1)
+                    iaTempX = CalculateOffset(iaXBlocks[i + 1][0], iaXBlocks[i + 1][1], -1)
                     iaGridCodeTempRB[1] = iaTempX[0]
                     iaGridCodeTempRB[3] = iaTempX[1]
-                    iaGridCodeTempRB[0] = iaYBlocks[j + 1, 0]
-                    iaGridCodeTempRB[2] = iaYBlocks[j + 1, 1]
+                    iaGridCodeTempRB[0] = iaYBlocks[j + 1][0]
+                    iaGridCodeTempRB[2] = iaYBlocks[j + 1][1]
                 elif i == (iXBlocksNum - 2) and j == (iYBlocksNum - 2):
-                    iaGridCodeTempRB[0] = iaYBlocks[j + 1, 0]
-                    iaGridCodeTempRB[2] = iaYBlocks[j + 1, 1]
-                    iaGridCodeTempRB[1] = iaXBlocks[i + 1, 0]
-                    iaGridCodeTempRB[3] = iaXBlocks[i + 1, 1]
-                sGridCodeTempLTRB = np.empty((2), dtype=str)
+                    iaGridCodeTempRB[0] = iaYBlocks[j + 1][0]
+                    iaGridCodeTempRB[2] = iaYBlocks[j + 1][1]
+                    iaGridCodeTempRB[1] = iaXBlocks[i + 1][0]
+                    iaGridCodeTempRB[3] = iaXBlocks[i + 1][1]
+                sGridCodeTempLTRB = [''] * 2
                 sGridCodeTempLTRB[0] = GridCalculate.IntToString(iaGridCodeTempLT[0], 2)
                 sGridCodeTempLTRB[0] += GridCalculate.IntToString(iaGridCodeTempLT[1], 2)
                 sGridCodeTempLTRB[0] += GridCalculate.IntToString(iaGridCodeTempLT[2], 1)
