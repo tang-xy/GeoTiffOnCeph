@@ -34,7 +34,8 @@ def rows_download_tif():
     global ceph_editor
     for i in range(60):
         start = time()
-        gridcode_lt_rb = random.sample(range(510470, 510479), 2).sort()
+        gridcode_lt_rb = random.sample(range(510470, 510479), 2)
+        gridcode_lt_rb.sort()
         gridcodes = GridCalculate.GridCodeToGridlist(gridcode_lt_rb[0], gridcode_lt_rb[1])
         for gridcode in gridcodes:
             ceph_editor.download_dir(gridcode + '2013', '32652_new')
