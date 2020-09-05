@@ -1,6 +1,8 @@
 # coding:utf-8
 from Ceph3BoTo3 import CephS3BOTO3
 from TestHDFS import do_foreach_file, createtif
+from GetInforFromGridSystem.GridCalculate import GridCalculate
+import random
 import sys
 import os
 from time import time
@@ -21,22 +23,39 @@ def download_tif():
 
 def upload_delete_tif():
     global ceph_editor
-    for i in range(5):
+    for i in range(60):
         start = time()
         do_foreach_file('32652(copy)/5104', upload_ceph)
         ceph_editor.delete_all_by_client()
         stop = time()
         print('第{0}次，{1}秒'.format(i, str(stop-start)))
 
+def rows_download_tif():
+    global ceph_editor
+    for i in range(60):
+        start = time()
+        gridcode_lt_rb = random.sample(range(510470, 510479), 2).sort()
+        gridcodes = GridCalculate.GridCodeToGridlist(gridcode_lt_rb[0], gridcode_lt_rb[1])
+        for gridcode in gridcodes:
+            
+        stop = time()
+        print('第{0}次，{1}秒'.format(i, str(stop-start)))
+
 if __name__ == "__main__":
     if 'gf1' not in ceph_editor.get_bucket():
         ceph_editor.create_bucket('gf1')
-    do_foreach_file('32652(copy)/5104', createtif)
-    do_foreach_file('32652(copy)/5104', upload_ceph)
+    model = sys.argv[1]
     start = time()
     print("Start: " + str(start))
-    #upload_delete_tif()
-    download_tif()
+    if model == 'create':
+        do_foreach_file('32652(copy)/5104', createtif)
+        do_foreach_file('32652(copy)/5104', upload_ceph)
+    elif model == 'upload_delete':
+        upload_delete_tif()
+    elif model == 'download':
+        download_tif()
+    elif model == 'rows_download':
+        rows_download_tif()
     stop = time()
     print("Stop: " + str(stop))
     print("总耗时" + str(stop-start) + "秒")
