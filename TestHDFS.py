@@ -5,6 +5,8 @@ from HdfsEditor import HdfsEditor
 from hdfs import InsecureClient
 from time import time
 from MyTimeit import timeit_wrapper
+from GetInforFromGridSystem.GridCalculate import GridCalculate
+import random
 
 def createtif(filepath):
     filename, fileend = os.path.splitext(filepath)
@@ -43,6 +45,23 @@ def download_tif(client_hdfs):
         stop = time()
         print('第{0}次，{1}秒'.format(i, str(stop-start)))
 
+def rows_download_tif(client_hdfs):
+    for i in range(60):
+        start = time()
+        gridcode_lt_rb = random.sample(range(510470, 510479), 2)
+        gridcode_lt_rb.sort()
+        gridcodes = GridCalculate.GridCodeToGridlist(str(gridcode_lt_rb[0]), str(gridcode_lt_rb[1]))
+        for gridcode in gridcodes:
+            tmp = gridcode[4 : 6]
+            path = '/gf1/5104/' + tmp + '/2013'
+            for root, dir, filenames in client_hdfs.walk(path):
+                if filenames != []:
+                    for filename in filenames:
+                        real_path = os.path.join(root, filename)
+                        client_hdfs.download(real_path, '32652_new/' + filename, overwrite = True)
+        stop = time()
+        print('第{0}次, {2}个格网, {1}秒'.format(i, str(stop-start), gridcode_lt_rb[1] - gridcode_lt_rb[0] + 1))
+
 if __name__ == "__main__":
     #model = "upload&delete"
     model = sys.argv[1]
@@ -79,5 +98,13 @@ if __name__ == "__main__":
         stop = time()
         print("Stop: " + str(stop))
         print("总耗时" + str(stop-start) + "秒")
-        
+    elif model == 'rows_download':
+        if client_hdfs.content('/gf1',False) == None:
+            client_hdfs.upload('/gf1', '32652(copy)')
+        start = time()
+        print("Start: " + str(start))
+        rows_download_tif(client_hdfs)
+        stop = time()
+        print("Stop: " + str(stop))
+        print("总耗时" + str(stop-start) + "秒")
         
