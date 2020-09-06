@@ -46,7 +46,7 @@ def download_tif(client_hdfs):
         print('第{0}次，{1}秒'.format(i, str(stop-start)))
 
 def rows_download_tif(client_hdfs):
-    for i in range(60):
+    for i in range(10):
         start = time()
         gridcode_lt_rb = random.sample(range(510470, 510479), 2)
         gridcode_lt_rb.sort()

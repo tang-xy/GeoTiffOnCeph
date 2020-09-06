@@ -32,7 +32,7 @@ def upload_delete_tif():
 
 def rows_download_tif():
     global ceph_editor
-    for i in range(60):
+    for i in range(10):
         start = time()
         gridcode_lt_rb = random.sample(range(510470, 510479), 2)
         gridcode_lt_rb.sort()
