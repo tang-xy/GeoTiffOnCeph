@@ -53,7 +53,7 @@ def rows_download_tif(client_hdfs):
         gridcodes = GridCalculate.GridCodeToGridlist(str(gridcode_lt_rb[0]), str(gridcode_lt_rb[1]))
         for gridcode in gridcodes:
             tmp = gridcode[4 : 6]
-            path = '/gf1/5104/' + tmp + '/2013'
+            path = '/gf1/5104/' + tmp
             for root, dir, filenames in client_hdfs.walk(path):
                 if filenames != []:
                     for filename in filenames:
