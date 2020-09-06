@@ -65,7 +65,8 @@ class CephS3BOTO3():
             self.bucket = self.s3_resource.Bucket(self.bucket_name)
         objs = self.bucket.objects.filter(Prefix = bucket_prefix)
         for obj in objs:
-            self.bucket.download_file(
+            self.s3_client.download_file(
+                Bucket = self.bucket_name,
                 Key = obj.key,
                 Filename = path + '/' + obj.key
             )
