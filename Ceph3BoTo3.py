@@ -61,14 +61,16 @@ class CephS3BOTO3():
         bucket = self.s3_resource.Bucket(self.bucket_name)
 
     def download_dir(self, bucket_prefix, path):
-        if self.bucket == None:
-            self.bucket = self.s3_resource.Bucket(self.bucket_name)
-        objs = self.bucket.objects.filter(Prefix = bucket_prefix)
-        for obj in objs:
+        # if self.bucket == None:
+        #     self.bucket = self.s3_resource.Bucket(self.bucket_name)
+        # objs = self.bucket.objects.filter(Prefix = bucket_prefix)
+        resp = self.s3_client.list_objects(Bucket = self.bucket_name, Prefix = bucket_prefix)
+        keylist = [obj["Key"] for obj in resp['Contents']]
+        for key in keylist:
             self.s3_client.download_file(
                 Bucket = self.bucket_name,
-                Key = obj.key,
-                Filename = path + '/' + obj.key
+                Key = key,
+                Filename = path + '/' + key
             )
 
     def upload_file(self, file_path, obj_name):
