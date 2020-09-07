@@ -48,7 +48,7 @@ class CephS3BOTO3():
         # bucket = self.s3_resource.Bucket(self.bucket_name)
         # for obj in bucket.objects.all():
         #     obj.Object().download_file(path + '/' + obj.key)
-        resp = self.s3_client.list_objects(Bucket = self.bucket_name)
+        resp = self.s3_client.list_objects(Bucket = self.bucket_name, Prefix = '')
         keylist = [obj["Key"] for obj in resp['Contents']]
         for key in keylist:
             self.s3_client.download_file(
