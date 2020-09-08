@@ -37,10 +37,11 @@ def rows_download_tif():
         gridcode_lt_rb = random.sample(range(510470, 510479), 2)
         gridcode_lt_rb.sort()
         gridcodes = GridCalculate.GridCodeToGridlist(str(gridcode_lt_rb[0]), str(gridcode_lt_rb[1]))
+        filter_time = 0
         for gridcode in gridcodes:
-            ceph_editor.download_dir(gridcode + '2013', '32652_new')
+            filter_time += (ceph_editor.download_dir(gridcode + '2013', '32652_new') - start)
         stop = time()
-        print('第{0}次, {2}个格网, {1}秒'.format(i, str(stop-start), gridcode_lt_rb[1] - gridcode_lt_rb[0] + 1))
+        print('第{0}次, {2}个格网, {1}秒, filter耗时{3}'.format(i, str(stop-start), gridcode_lt_rb[1] - gridcode_lt_rb[0] + 1, filter_time))
 
 if __name__ == "__main__":
     if 'gf1' not in ceph_editor.get_bucket():

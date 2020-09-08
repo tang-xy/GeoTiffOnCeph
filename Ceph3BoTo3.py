@@ -1,5 +1,6 @@
 # coding:utf-8
 from boto3.session import Session
+from time import time
 class CephS3BOTO3():
 
     def __init__(self, bucket_name = ''):
@@ -65,6 +66,7 @@ class CephS3BOTO3():
         #     self.bucket = self.s3_resource.Bucket(self.bucket_name)
         # objs = self.bucket.objects.filter(Prefix = bucket_prefix)
         resp = self.s3_client.list_objects(Bucket = self.bucket_name, Prefix = bucket_prefix)
+        now = time()
         keylist = [obj["Key"] for obj in resp['Contents']]
         for key in keylist:
             self.s3_client.download_file(
@@ -72,6 +74,7 @@ class CephS3BOTO3():
                 Key = key,
                 Filename = path + '/' + key
             )
+        return now
 
     def upload_file(self, file_path, obj_name):
         return self.s3_client.upload_file(
