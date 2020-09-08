@@ -75,7 +75,8 @@ class CephS3BOTO3():
                 Key = key,
                 Filename = path + '/' + key
             )
-        return now - start
+        end = time()
+        return now - start, end - now
 
     def upload_file(self, file_path, obj_name):
         return self.s3_client.upload_file(

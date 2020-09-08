@@ -38,8 +38,11 @@ def rows_download_tif():
         gridcode_lt_rb.sort()
         gridcodes = GridCalculate.GridCodeToGridlist(str(gridcode_lt_rb[0]), str(gridcode_lt_rb[1]))
         filter_time = 0
+        row_time = 0
         for gridcode in gridcodes:
-            filter_time += ceph_editor.download_dir(gridcode + '2013', '32652_new')
+            tmp1, tmp2 += ceph_editor.download_dir(gridcode + '2013', '32652_new')
+            filter_time += tmp1
+            row_time += tmp2
         stop = time()
         print('第{0}次, {2}个格网, {1}秒, filter耗时{3}'.format(i, str(stop-start), gridcode_lt_rb[1] - gridcode_lt_rb[0] + 1, filter_time))
 
