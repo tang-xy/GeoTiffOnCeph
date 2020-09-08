@@ -67,8 +67,8 @@ class CephS3BOTO3():
         # objs = self.bucket.objects.filter(Prefix = bucket_prefix)
         start = time()
         resp = self.s3_client.list_objects(Bucket = self.bucket_name, Prefix = bucket_prefix)
-        now = time()
         keylist = [obj["Key"] for obj in resp['Contents']]
+        now = time()
         for key in keylist:
             self.s3_client.download_file(
                 Bucket = self.bucket_name,
