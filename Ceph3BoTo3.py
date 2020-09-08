@@ -65,6 +65,7 @@ class CephS3BOTO3():
         # if self.bucket == None:
         #     self.bucket = self.s3_resource.Bucket(self.bucket_name)
         # objs = self.bucket.objects.filter(Prefix = bucket_prefix)
+        start = time()
         resp = self.s3_client.list_objects(Bucket = self.bucket_name, Prefix = bucket_prefix)
         now = time()
         keylist = [obj["Key"] for obj in resp['Contents']]
@@ -74,7 +75,7 @@ class CephS3BOTO3():
                 Key = key,
                 Filename = path + '/' + key
             )
-        return now
+        return now - start
 
     def upload_file(self, file_path, obj_name):
         return self.s3_client.upload_file(
