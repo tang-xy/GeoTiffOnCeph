@@ -71,7 +71,15 @@ if __name__ == "__main__":
     print("Start: " + str(start))
     if model == 'create':
         do_foreach_file('32652(copy)/5104', createtif)
+        start_att = time()
         do_foreach_file('32652(copy)/5104', upload_ceph_with_att, end_name='.tif')
+        end_att = time()
+        print("属性上传耗时{0}".format(end_att - start_att))
+
+        start_all = time()
+        do_foreach_file('32652(copy)/5104', upload_ceph)
+        end_all = time()
+        print("全部上传耗时{0}".format(end_all - start_all))
     elif model == 'upload_delete':
         upload_delete_tif()
     elif model == 'download':
