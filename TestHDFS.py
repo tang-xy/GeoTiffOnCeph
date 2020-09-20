@@ -15,13 +15,15 @@ def createtif(filepath):
         tiffile.write(str([i for i in range(800000)]))
 
 
-def do_foreach_file(url, func):
+def do_foreach_file(url, func, end_name = ''):
     for f in os.listdir(url):
         real_path = os.path.join(url,f)
         if os.path.isfile(real_path):
-            func(real_path)
+            filename, fileend = os.path.splitext(real_path)
+            if end_name == '' or fileend == end_name:
+                func(real_path)
         elif os.path.isdir(real_path):
-            do_foreach_file(real_path, func)
+            do_foreach_file(real_path, func, end_name)
         else:
             print("其他情况:" + real_path)
 

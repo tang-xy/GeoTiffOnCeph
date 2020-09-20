@@ -9,6 +9,8 @@ from time import time
 
 ceph_editor = CephS3BOTO3('gf1')
 
+
+
 def upload_ceph(path):
     global ceph_editor
     basename =  os.path.basename(path)
@@ -44,7 +46,8 @@ def rows_download_tif():
             filter_time += tmp1
             row_time += tmp2
         stop = time()
-        print('第{0}次, {2}个格网, {1}秒, filter耗时{3},下载耗时{4}'.format(i, str(stop-start), gridcode_lt_rb[1] - gridcode_lt_rb[0] + 1, filter_time, row_time))
+        print('第{0}次, {2}个格网, {1}秒, filter耗时{3},下载耗时{4}'.format(i, str(stop - start), gridcode_lt_rb[1] - gridcode_lt_rb[0] + 1, filter_time, row_time))
+
 
 if __name__ == "__main__":
     if 'gf1' not in ceph_editor.get_bucket():

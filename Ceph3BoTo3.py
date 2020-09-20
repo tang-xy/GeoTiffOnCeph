@@ -78,10 +78,10 @@ class CephS3BOTO3():
         end = time()
         return now - start, end - now
 
-    def upload_file(self, file_path, obj_name):
+    def upload_file(self, file_path, obj_name, meta_dict = {}):
         return self.s3_client.upload_file(
             file_path, self.bucket_name, obj_name,
-            ExtraArgs={'ACL': 'public-read-write'}
+            ExtraArgs={'ACL': 'public-read-write' ,  'Metadata': meta_dict}
         )
 
 
