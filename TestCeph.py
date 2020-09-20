@@ -16,6 +16,20 @@ def upload_ceph(path):
     basename =  os.path.basename(path)
     ceph_editor.upload_file(path, basename)
 
+def upload_ceph_with_att(path):
+    global ceph_editor
+    basename =  os.path.basename(path)
+    filename, fileend = os.path.splitext(basename)
+    if fileend != '.tif':
+        print("error:" + path)
+    else:
+        meta_dict = {}
+        with open(os.path.splitext(path)[0] + '.tfw', 'rb') as tfw:
+            meta_dict['tfw'] =  tfw.read()
+        with open(path + '.xml', 'rb') as meta_data:
+            meta_dict['tfw'] =  meta_data.read()
+        ceph_editor.upload_file(path, basename, meta_dict = meta_dict)
+
 def download_tif():
     for i in range(5):
         start = time()
