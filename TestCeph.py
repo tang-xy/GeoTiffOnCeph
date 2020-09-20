@@ -6,8 +6,7 @@ import random
 import sys
 import os
 from time import time
-reload(sys)
-sys.setdefaultencoding('utf-8')
+
 ceph_editor = CephS3BOTO3('gf1')
 
 
