@@ -71,7 +71,7 @@ if __name__ == "__main__":
     print("Start: " + str(start))
     if model == 'create':
         do_foreach_file('32652(copy)/5104', createtif)
-        do_foreach_file('32652(copy)/5104', upload_ceph)
+        do_foreach_file('32652(copy)/5104', upload_ceph_with_att, end_name='.tif')
     elif model == 'upload_delete':
         upload_delete_tif()
     elif model == 'download':
