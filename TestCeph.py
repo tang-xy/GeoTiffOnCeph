@@ -28,7 +28,7 @@ def upload_ceph_with_att(path):
             meta_dict['tfw'] =  repr(tfw.read())
         with open(path + '.xml', 'rb') as meta_data:
             meta_dict['tfw'] =  repr(meta_data.read())
-        ceph_editor.upload_file(path, basename, meta_dict = meta_dict)
+        ceph_editor.upload_file(path, 'new_' + basename, meta_dict = meta_dict)
 
 def download_tif():
     for i in range(5):
