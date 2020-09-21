@@ -56,7 +56,7 @@ def rows_download_tif():
         filter_time = 0
         row_time = 0
         for gridcode in gridcodes:
-            tmp1, tmp2 = ceph_editor.download_dir('new_' + gridcode + '2013', '32652_new')
+            tmp1, tmp2 = ceph_editor.download_dir(gridcode + '2013', '32652_new')
             filter_time += tmp1
             row_time += tmp2
         stop = time()
