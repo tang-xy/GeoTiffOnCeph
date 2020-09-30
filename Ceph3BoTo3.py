@@ -13,7 +13,7 @@ class CephS3BOTO3():
         self.bucket_name = bucket_name
         self.s3_resource = self.session.resource('s3', endpoint_url = self.url)
         self.bucket = None
-        self.filename_valid = ['tif']
+        self.filename_valid = ['tif', 'hdf']
 
     def get_bucket(self):
         buckets = [bucket['Name'] for bucket in self.s3_client.list_buckets()['Buckets']]
