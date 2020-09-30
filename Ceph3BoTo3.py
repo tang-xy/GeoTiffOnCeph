@@ -13,6 +13,7 @@ class CephS3BOTO3():
         self.bucket_name = bucket_name
         self.s3_resource = self.session.resource('s3', endpoint_url = self.url)
         self.bucket = None
+        self.filename_valid = ['tif']
 
     def get_bucket(self):
         buckets = [bucket['Name'] for bucket in self.s3_client.list_buckets()['Buckets']]
@@ -92,3 +93,11 @@ class CephS3BOTO3():
             Key = obj_name
         )
         return resp['Body'].read()
+
+    def get_gdal_dataset_inmemory(self, obj_name):
+        if obj_name.split('.')[-1] not in self.filename_valid:
+            raise Exception("不合法的文件名")
+        imageBuffer = self.download(obj_name)
+        memFilename = "/vsimem/" + obj_name
+        gdal.FileFromMemBuffer(memFilename, imageBuffer)
+        return gdal.Open(memFilename)
