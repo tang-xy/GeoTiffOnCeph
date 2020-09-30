@@ -1,6 +1,7 @@
 # coding:utf-8
 from boto3.session import Session
 from time import time
+from osgeo import gdal
 class CephS3BOTO3():
 
     def __init__(self, bucket_name = ''):
