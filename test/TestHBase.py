@@ -3,13 +3,12 @@ from thrift.protocol import TBinaryProtocol
 from hbase.ttypes import ColumnDescriptor
 from hbase import Hbase
 
-def createTable(client, column_name, table_name):
-    column = ColumnDescriptor(name = column_name)
+import sys
+import os
+from time import time
 
-    client.createTable(table_name, [column])
-
-if __name__ == "__main__":
-    transport = TSocket.TSocket('localhost', 9090)
+def createTable():
+    transport = TSocket.TSocket('instance-2', 9090)
 
     transport = TTransport.TBufferedTransport(transport)
 
@@ -25,3 +24,8 @@ if __name__ == "__main__":
     print(client.getTableNames())
 
     transport.close()
+
+if __name__ == "__main__":
+    model = sys.argv[1]
+    if model = 'createTable':
+        createTable()
