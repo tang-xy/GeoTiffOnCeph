@@ -1,5 +1,5 @@
 from thrift.transport import TSocket,TTransport
-from thrift.protocol import TCompactProtocol
+from thrift.protocol import TBinaryProtocol
 from hbase.ttypes import ColumnDescriptor
 from hbase import Hbase
 
@@ -12,7 +12,7 @@ def createTable():
 
     transport = TTransport.TBufferedTransport(transport)
 
-    protocol = TCompactProtocol.TCompactProtocol(transport)
+    protocol = TBinaryProtocol.TBinaryProtocol(transport)
 
     client = Hbase.Client(protocol)
     transport.open()
