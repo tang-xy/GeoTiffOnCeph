@@ -27,5 +27,5 @@ def createTable():
 
 if __name__ == "__main__":
     model = sys.argv[1]
-    if model = 'createTable':
+    if model == 'createTable':
         createTable()
