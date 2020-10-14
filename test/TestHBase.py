@@ -1,5 +1,6 @@
 # coding:utf-8
-from thrift.transport import TSocket,TTransport
+from thrift.transport import TSocket,TFramedTransport
+from thrift.transport.TTransport import TFramedTransport
 from thrift.protocol import TCompactProtocol
 from hbase.ttypes import ColumnDescriptor
 from hbase import Hbase
@@ -9,10 +10,11 @@ import os
 from time import time
 
 def createTable():
-    transport = TFramedTransport(TSocket('instance-2', 9090))  
+    transport = TFramedTransport(TSocket.TSocket('instance-2', 9090))  
     protocol = TCompactProtocol.TCompactProtocol(transport)  
     client = Hbase.Client(protocol)  
     transport.open()
+
     contents = ColumnDescriptor(name='gf1', maxVersions=1)
     client.createTable('image', [contents])
 
