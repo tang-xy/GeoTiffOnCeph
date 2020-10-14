@@ -1,3 +1,4 @@
+# coding:utf-8
 from thrift.transport import TSocket,TTransport
 from thrift.protocol import TBinaryProtocol
 from hbase.ttypes import ColumnDescriptor
