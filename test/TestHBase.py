@@ -1,5 +1,5 @@
 # coding:utf-8
-from thrift.transport import TSocket,TFramedTransport
+from thrift.transport import TSocket
 from thrift.transport.TTransport import TFramedTransport
 from thrift.protocol import TCompactProtocol
 from hbase.ttypes import ColumnDescriptor
