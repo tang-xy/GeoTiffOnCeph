@@ -9,16 +9,10 @@ import os
 from time import time
 
 def createTable():
-    transport = TSocket.TSocket('instance-2', 9090)
-
-    transport = TTransport.TBufferedTransport(transport)
-
-    protocol = TCompactProtocol.TCompactProtocol(transport)
-
-    client = Hbase.Client(protocol)
+    transport = TFramedTransport(TSocket('instance-2', 9090))  
+    protocol = TCompactProtocol.TCompactProtocol(transport)  
+    client = Hbase.Client(protocol)  
     transport.open()
-
-
     contents = ColumnDescriptor(name='gf1', maxVersions=1)
     client.createTable('image', [contents])
 
