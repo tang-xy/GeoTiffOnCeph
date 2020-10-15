@@ -60,7 +60,7 @@ def create_table():
 def update_data():
     start = time()
     print("Start: " + str(start))
-
+    global client
     transport.open()
     global client
     if client.isTableEnabled('image') == False:
