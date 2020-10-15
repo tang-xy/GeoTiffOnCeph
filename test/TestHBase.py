@@ -48,7 +48,7 @@ def update_data():
     if client.isTableEnabled('image') == False:
         raise Exception("表不可用")
     #mutations = [Mutation(column="gf1:")
-    print(open_image("32652(copy)/5104/70/2013/510470201305240000006256250169001.tif")[2])
+    image_data, meta_data = open_image("32652(copy)/5104/70/2013/510470201305240000006256250169001.tif")
     transport.close()
 
 if __name__ == "__main__":
