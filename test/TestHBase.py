@@ -74,7 +74,7 @@ def upload_hbase(path):
     mutations = [Mutation(column = basename + "_" + k, value=meta_dict[k]) for k in meta_dict]
     with open(path, 'rb') as image:
         mutations.append(Mutation(column="gf1_data", value=image))
-    client.mutateRow('test', basename, mutations)
+    client.mutateRow('image', basename, mutations)
 
 if __name__ == "__main__":
     model = sys.argv[1]
