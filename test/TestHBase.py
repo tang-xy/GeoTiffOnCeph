@@ -4,7 +4,7 @@ from thrift.transport.TTransport import TFramedTransport
 from thrift.protocol import TCompactProtocol
 from hbase.ttypes import ColumnDescriptor, Mutation
 from hbase import Hbase
-from TestHDFS import do_foreach_file
+#from TestHDFS import do_foreach_file
 #from osgeo import gdal
 
 import sys
@@ -20,6 +20,17 @@ transport = TFramedTransport(TSocket.TSocket('instance-2', 9090))
 protocol = TCompactProtocol.TCompactProtocol(transport)  
 client = Hbase.Client(protocol)  
 
+def do_foreach_file(url, func, end_name = ''):
+    for f in os.listdir(url):
+        real_path = os.path.join(url,f)
+        if os.path.isfile(real_path):
+            filename, fileend = os.path.splitext(real_path)
+            if end_name == '' or fileend == end_name:
+                func(real_path)
+        elif os.path.isdir(real_path):
+            do_foreach_file(real_path, func, end_name)
+        else:
+            print("其他情况:" + real_path)
 
 def transport_decorator(function):
     def decorator(url = 'instance-2', port = 9090):
