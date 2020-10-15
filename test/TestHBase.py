@@ -65,8 +65,9 @@ def update_data():
     global client
     if client.isTableEnabled('image') == False:
         raise Exception("表不可用")
-    do_foreach_file('32652(copy)/5104', upload_hbase, '.tif')
     transport.close()
+    do_foreach_file('32652(copy)/5104', upload_hbase, '.tif')
+    
 
     stop = time()
     print("Stop: " + str(stop))
@@ -74,7 +75,8 @@ def update_data():
 
 def upload_hbase(path):
     global client
-
+    global transport
+    transport.open()
     basename =  os.path.basename(path)
     meta_dict = {}
     with open(os.path.splitext(path)[0] + '.tfw', 'rb') as tfw:
@@ -86,6 +88,7 @@ def upload_hbase(path):
     with open(path, 'rb') as image:
         mutations.append(Mutation(column="gf1_data", value=image.read()))
     client.mutateRow('image', basename, mutations)
+    transport.close()
 
 if __name__ == "__main__":
     model = sys.argv[1]
