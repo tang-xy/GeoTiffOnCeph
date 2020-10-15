@@ -84,7 +84,7 @@ def upload_hbase(path):
     with open(path + '.xml', 'rb') as meta_data:
         meta_dict['tfw'] =  repr(meta_data.read())
         #ceph_editor.upload_file(path, 'new_' + basename, meta_dict = meta_dict)
-    mutations = [Mutation(column = basename + "_" + k, value=meta_dict[k]) for k in meta_dict]
+    mutations = [Mutation(column = 'gf1' + "_" + k, value=meta_dict[k]) for k in meta_dict]
     with open(path, 'rb') as image:
         mutations.append(Mutation(column="gf1_data", value=image.read()))
     client.mutateRow('image', basename, mutations)
