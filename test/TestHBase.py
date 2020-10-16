@@ -110,7 +110,7 @@ def get_att():
     global transport
     transport.open()
 
-    scannerId = client.scannerOpen('image','510470201305240000006256250169001.tif',["gf1_data"])
+    scannerId = client.scannerOpen('image','510470201305240000006256250169001.tif',["gf1:data"])
     # result = client.getRowWithColumns('image','510470201305240000006256250169001.tif',['gf1:data'])
     transport.close()
     i = 0
