@@ -101,7 +101,7 @@ def upload_hbase(path):
     mutations = []
     with open(path, 'rb') as image:
         #mutations.append(Mutation(column="gf1:data", value=str([i for i in range(80000)])))
-        mutations.append(Mutation(column="gf1_data", value=image.read()))
+        mutations.append(Mutation(column="gf1:data", value=image.read()))
     client.mutateRow('image', basename, mutations)
     transport.close()
 
