@@ -39,7 +39,7 @@ def download_tif():
 
 def upload_delete_tif():
     global ceph_editor
-    for i in range(60):
+    for i in range(10):
         start = time()
         do_foreach_file('32652(copy)/5104', upload_ceph)
         ceph_editor.delete_all_by_client()
