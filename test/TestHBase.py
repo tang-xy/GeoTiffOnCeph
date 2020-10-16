@@ -105,7 +105,7 @@ def upload_hbase(path):
     client.mutateRow('image', basename, mutations)
     transport.close()
 
-def get_att(path):
+def get_att():
     global client
     global transport
     transport.open()
