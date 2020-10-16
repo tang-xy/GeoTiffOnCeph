@@ -110,17 +110,18 @@ def get_att():
     global transport
     transport.open()
 
-    scannerId = client.scannerOpen('image','510470201305240000006256250169001.tif',["gf1_data"])
+    # scannerId = client.scannerOpen('image','510470201305240000006256250169001.tif',["gf1_data"])
+    result = client.getRowWithColumns('image','510470201305240000006256250169001.tif',['gf1_data'])
     transport.close()
-    i = 0
-    while True:
-        transport.open()
-        print(scannerId)
-        result = client.scannerGetList(scannerId,1)
-        i+=1
-        transport.close()
-        if not result:
-            break
+    # i = 0
+    # while True:
+    #     transport.open()
+    #     print(scannerId)
+    #     result = client.scannerGetList(scannerId,1)
+    #     i+=1
+    #     transport.close()
+    #     if not result:
+    #         break
 
 if __name__ == "__main__":
     model = sys.argv[1]
