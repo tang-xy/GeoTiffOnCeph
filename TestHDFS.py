@@ -12,7 +12,7 @@ def createtif(filepath):
     filename, fileend = os.path.splitext(filepath)
     if fileend == '.tfw':
         with open(filename + ".tif","w+") as tiffile:
-            tiffile.write(str([i for i in range(80000)]))
+            tiffile.write(str([80000 - i for i in range(80000)]))
 
 
 def do_foreach_file(url, func, end_name = ''):
