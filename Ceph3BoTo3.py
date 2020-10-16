@@ -88,7 +88,7 @@ class CephS3BOTO3():
         objs = self.bucket.objects.filter(Prefix = bucket_prefix)
         now = time()
         for obj in objs:
-            neveruse = s3.Object(obj).metadata
+            neveruse = self.s3_resource.Object(obj).metadata
         end = time()
         return now - start, end - now
 
