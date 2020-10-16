@@ -81,6 +81,17 @@ class CephS3BOTO3():
         end = time()
         return now - start, end - now
 
+    def get_metadata(self, bucket_prefix, path):
+        start = time()
+        if self.bucket == None:
+            self.bucket = self.s3_resource.Bucket(self.bucket_name)
+        objs = self.bucket.objects.filter(Prefix = bucket_prefix)
+        now = time()
+        for obj in objs:
+            print(obj)
+        end = time()
+        return now - start, end - now
+
     def upload_file(self, file_path, obj_name, meta_dict = {}):
         return self.s3_client.upload_file(
             file_path, self.bucket_name, obj_name,

@@ -62,6 +62,21 @@ def rows_download_tif():
         stop = time()
         print('第{0}次, {2}个格网, {1}秒, filter耗时{3},下载耗时{4}'.format(i, str(stop - start), gridcode_lt_rb[1] - gridcode_lt_rb[0] + 1, filter_time, row_time))
 
+def meta_data():
+    global ceph_editor
+    for i in range(60):
+        start = time()
+        gridcode_lt_rb = random.sample(range(510470, 510479), 2)
+        gridcode_lt_rb.sort()
+        gridcodes = GridCalculate.GridCodeToGridlist(str(gridcode_lt_rb[0]), str(gridcode_lt_rb[1]))
+        filter_time = 0
+        row_time = 0
+        for gridcode in gridcodes:
+            tmp1, tmp2 = ceph_editor.get_metadata(gridcode + '2013', '32652_new')
+            filter_time += tmp1
+            row_time += tmp2
+        stop = time()
+        print('第{0}次, {2}个格网, {1}秒, filter耗时{3},查询元数据耗时{4}'.format(i, str(stop - start), gridcode_lt_rb[1] - gridcode_lt_rb[0] + 1, filter_time, row_time))
 
 if __name__ == "__main__":
     if 'gf1' not in ceph_editor.get_bucket():
@@ -86,6 +101,8 @@ if __name__ == "__main__":
         download_tif()
     elif model == 'rows_download':
         rows_download_tif()
+    elif model == 'meta_data':
+        meta_data()
     stop = time()
     print("Stop: " + str(stop))
     print("总耗时" + str(stop-start) + "秒")
