@@ -66,14 +66,15 @@ def update_data():
     if client.isTableEnabled('image') == False:
         raise Exception("表不可用")
     transport.close()
-    do_foreach_file('32652(copy)/5104', upload_hbase, '.tif')
+    do_foreach_file('32652(copy)/5104', upload_hbase)
+    # do_foreach_file('32652(copy)/5104', upload_hbase_att, '.tif')
     
 
     stop = time()
     print("Stop: " + str(stop))
     print("总耗时" + str(stop-start) + "秒")
 
-def upload_hbase(path):
+def upload_hbase_att(path):
     global client
     global transport
     transport.open()
@@ -85,6 +86,18 @@ def upload_hbase(path):
         meta_dict['tfw'] =  repr(meta_data.read())
         #ceph_editor.upload_file(path, 'new_' + basename, meta_dict = meta_dict)
     mutations = [Mutation(column = 'gf1' + "_" + k, value=meta_dict[k]) for k in meta_dict]
+    mutations = []
+    with open(path, 'rb') as image:
+        #mutations.append(Mutation(column="gf1:data", value=str([i for i in range(80000)])))
+        mutations.append(Mutation(column="gf1_data", value=image.read()))
+    client.mutateRow('image', basename, mutations)
+    transport.close()
+
+def upload_hbase(path):
+    global client
+    global transport
+    transport.open()
+    basename =  os.path.basename(path)
     mutations = []
     with open(path, 'rb') as image:
         #mutations.append(Mutation(column="gf1:data", value=str([i for i in range(80000)])))
