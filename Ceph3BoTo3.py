@@ -28,7 +28,8 @@ class CephS3BOTO3():
         self.bucket_name = bucket_name
         self.s3_client.create_bucket(Bucket = bucket_name, ACL = acl)
 
-    def upload(self, obj_name, obj):
+    def upload(self, obj_name, obj, meta_dict = {}):
+        '''meta_dict未实现'''
         resp = self.s3_client.put_object(
             Bucket = self.bucket_name,# 存储桶名称
             Key = obj_name, # 上传到
