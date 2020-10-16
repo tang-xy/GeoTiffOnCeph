@@ -85,14 +85,19 @@ def upload_hbase(path):
         meta_dict['tfw'] =  repr(meta_data.read())
         #ceph_editor.upload_file(path, 'new_' + basename, meta_dict = meta_dict)
     mutations = [Mutation(column = 'gf1' + "_" + k, value=meta_dict[k]) for k in meta_dict]
+    mutations = []
     with open(path, 'rb') as image:
-        mutations.append(Mutation(column="gf1_data", value=image.read()))
+        mutations.append(Mutation(column="gf1:data", value=str([i for i in range(80000)])))
+        #mutations.append(Mutation(column="gf1_data", value=image.read()))
     client.mutateRow('image', basename, mutations)
     transport.close()
 
 if __name__ == "__main__":
     model = sys.argv[1]
+    #model = "test"
     if model == 'create_table':
         create_table()
     if model == 'update_data':
         update_data()
+    if model == 'test':
+        upload_hbase('32652(copy)/5104\\70\\2013\\510470201305240000006256250169001.tif')
