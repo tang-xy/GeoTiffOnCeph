@@ -111,8 +111,11 @@ def get_att():
     transport.open()
 
     scannerId = client.scannerOpen('image','510470201305240000006256250169001.tif',["gf1_data"])
+    transport.close()
     while True:
+        transport.open()
         result = client.scannerGet(scannerId)
+        transport.close()
         if not result:
             break
 
