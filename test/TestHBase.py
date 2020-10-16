@@ -105,12 +105,29 @@ def upload_hbase(path):
     client.mutateRow('image', basename, mutations)
     transport.close()
 
+def get_att(path):
+    global client
+    global transport
+    transport.open()
+
+    scannerId = client.scannerOpen('image','510470201305240000006256250169001.tif',["gf1_data"])
+    while True:
+        result = client.scannerGet(scannerId)
+        if not result:
+            break
+
 if __name__ == "__main__":
     model = sys.argv[1]
     #model = "test"
+    start = time()
     if model == 'create_table':
         create_table()
     if model == 'update_data':
         update_data()
     if model == 'test':
         upload_hbase('32652(copy)/5104\\70\\2013\\510470201305240000006256250169001.tif')
+    elif model == 'get_att':
+        get_att()
+    stop = time()
+    print("Stop: " + str(stop))
+    print("总耗时" + str(stop-start) + "秒")
