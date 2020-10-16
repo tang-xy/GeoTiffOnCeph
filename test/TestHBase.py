@@ -85,11 +85,11 @@ def upload_hbase_att(path):
     with open(path + '.xml', 'rb') as meta_data:
         meta_dict['tfw'] =  repr(meta_data.read())
         #ceph_editor.upload_file(path, 'new_' + basename, meta_dict = meta_dict)
-    mutations = [Mutation(column = 'gf1' + "_" + k, value=meta_dict[k]) for k in meta_dict]
+    mutations = [Mutation(column = 'gf1' + ":" + k, value=meta_dict[k]) for k in meta_dict]
     mutations = []
     with open(path, 'rb') as image:
         #mutations.append(Mutation(column="gf1:data", value=str([i for i in range(80000)])))
-        mutations.append(Mutation(column="gf1_data", value=image.read()))
+        mutations.append(Mutation(column="gf1:data", value=image.read()))
     client.mutateRow('image', basename, mutations)
     transport.close()
 
@@ -111,7 +111,7 @@ def get_att():
     transport.open()
 
     # scannerId = client.scannerOpen('image','510470201305240000006256250169001.tif',["gf1_data"])
-    result = client.getRowWithColumns('image','510470201305240000006256250169001.tif',['gf1_data'])
+    result = client.getRowWithColumns('image','510470201305240000006256250169001.tif',['gf1:data'])
     transport.close()
     # i = 0
     # while True:
