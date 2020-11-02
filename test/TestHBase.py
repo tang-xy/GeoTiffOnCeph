@@ -116,7 +116,7 @@ def get_att():
     i = 0
     while True:
         transport.open()
-        print(scannerId)
+        #print(scannerId)
         result = client.scannerGetList(scannerId,1)
         i+=1
         transport.close()
