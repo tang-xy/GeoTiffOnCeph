@@ -1,5 +1,6 @@
 # coding:utf-8
-#import numpy as np
+import numpy as np
+import os.path
 class GridCalculate:
     @staticmethod
     def IntToString(iInput, iResultLength):
@@ -8,6 +9,39 @@ class GridCalculate:
            如int 3,经过该函数处理，变为“003”
         '''
         return str(iInput).rjust(iResultLength,'0')
+
+    @staticmethod
+    def GridCodeToGridlist_iPCSType(sGridCodeLT, sGridCodeRB, iPCSType):
+        lsResult = GridCalculate.GridCodeToGridlist(sGridCodeLT, sGridCodeRB)
+        return [os.path.join(str(iPCSType), sResult[0:4], sResult[-2:]) for sResult in lsResult]
+
+
+    @staticmethod
+    def LtPointRecaculate(sGridCodeLT, sGridCodeRB, sGridCodeLB):
+        IntToString = GridCalculate.IntToString
+        CaculateYNumOrXNum = GridCalculate.CaculateYNumOrXNum
+        iaGridCodeBase = np.empty((4), dtype=int)
+        iaGridCodeTemp = np.empty((4), dtype=int)
+        iaGridCodeBase = GridCalculate.GetCodeOfGrid(sGridCodeLT)
+        iaGridCodeTemp = GridCalculate.GetCodeOfGrid(sGridCodeLT)
+        iTNumY = GridCalculate.CaculateYNumOrXNum(sGridCodeLT, sGridCodeRB, "y") + 1
+        if (iTNumY > iaGridCodeTemp[2]):
+            a = (iTNumY - iaGridCodeTemp[2]) / 10
+            pass
+        else:
+            iaGridCodeTemp[2] = iaGridCodeTemp[2] - iTNumY - 1
+        sGridTemp = IntToString(iaGridCodeTemp[0], 2) + IntToString(iaGridCodeTemp[1], 2)\
+            + IntToString(iaGridCodeTemp[2], 1)\
+            + IntToString(iaGridCodeTemp[3], 1)
+        iTNumX = CaculateYNumOrXNum(sGridCodeLB, sGridTemp, "x") + 1
+        if (iTNumX > iaGridCodeBase[3]):
+            pass
+        else:
+            iaGridCodeBase[3] = iaGridCodeBase[3] - iTNumX - 1
+        resGridCodeLT = IntToString(iaGridCodeBase[0], 2) + IntToString(iaGridCodeBase[1], 2)\
+                                                               + IntToString(iaGridCodeBase[2], 1)\
+                                                               + IntToString(iaGridCodeBase[3], 1)
+        return resGridCodeLT
 
     @staticmethod
     def GridCodeToGridlist(sGridCodeLT, sGridCodeRB):
@@ -144,15 +178,15 @@ class GridCalculate:
             iXBlocksNum = iaQtRdX[0] + 2
         else:
             iXBlocksNum = iaQtRdX[0] + 1
-        # iaXBlocks = np.empty((iXBlocksNum, 2), dtype=int)
-        iaXBlocks = [[0] * 2] * iXBlocksNum
+        iaXBlocks = np.empty((iXBlocksNum, 2), dtype=int)
+        # iaXBlocks = [[0] * 2] * iXBlocksNum
 
         if iaQtRdY[1] != 0:
             iYBlocksNum = iaQtRdY[0] + 2
         else:
             iYBlocksNum = iaQtRdY[0] + 1
-        # iaYBlocks = np.empty((iYBlocksNum, 2), dtype=int)
-        iaYBlocks = [[0] * 2] * iYBlocksNum
+        iaYBlocks = np.empty((iYBlocksNum, 2), dtype=int)
+        # iaYBlocks = [[0] * 2] * iYBlocksNum
 
         iaXBlocks[0][0] = iaGridCodeLT[1]
         iaXBlocks[0][1] = iaGridCodeLT[3]
@@ -213,5 +247,3 @@ class GridCalculate:
 
         return lsGridCodeLTRB
 
-if __name__ == '__main__':
-    print(GridCalculate.GridCodeToGridlist('510470', '510479'))

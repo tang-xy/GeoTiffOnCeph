@@ -7,6 +7,10 @@ class CoordinateAndProjection:
     def __init__(self):
         pass 
     
+    @staticmethod
+    def LongitudeToUTMProjZone(dLon):
+        return int(((dLon + 180.0) / 6) + 1)
+
     @staticmethod 
     def GeoCdnToGridCode(point):
         '''由地理坐标，求算所在10km格网编码'''
