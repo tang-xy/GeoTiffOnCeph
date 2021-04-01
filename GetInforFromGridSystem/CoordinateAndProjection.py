@@ -9,7 +9,7 @@ class CoordinateAndProjection:
     
     @staticmethod
     def LongitudeToUTMProjZone(dLon):
-        return int(((dLon + 180.0) / 6) + 1)
+        return math.ceil((dLon + 180.0) / 6)
 
     @staticmethod 
     def GeoCdnToGridCode(point):

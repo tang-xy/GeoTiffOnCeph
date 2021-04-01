@@ -3,19 +3,26 @@
 from os import path
 import os
 from DataStruct import DataStruct
+import conf
 class SearchEngine:
 
     @staticmethod
     def JudgeYearDataExsit(sTkmGridPath, sDateTime):
         '''给定一个10km网格的路径和日期（8位），判断该路径下是否有与给定日期对应年份的数据
-           存在，则返回加上年份后的路径；不存在，返回字符串"0"
+           存在，则返回加上年份后的路径列表；
         '''
-        sYear = sDateTime[0 : 4]
-        objpath = os.path.join(sTkmGridPath, sYear)
-        if path.exists(objpath):
-            return objpath
+        res = []
+        if sDateTime == 'all' and path.exists(sTkmGridPath):
+            for sYear in os.listdir(sTkmGridPath):
+                objpath = os.path.join(sTkmGridPath, sYear)
+                if path.exists(objpath):
+                    res.append(objpath)
         else:
-            return '0'
+            sYear = sDateTime[0 : 4]
+            objpath = os.path.join(sTkmGridPath, sYear)
+            if path.exists(objpath):
+                res.append(objpath)
+        return res
 
     @staticmethod
     def GetObjFilenameList(sPath, sFileType):
@@ -40,15 +47,21 @@ class SearchEngine:
            1-4 存在，根据日期和数据产品得到该10km格网下所有符合条件的bds的序列 ——l10kmlbds     
         '''
         sTkmPath = sGridcode
-        lsFilePathname, lBds = [], []
+        lsFilePathname = []
 
         sTkmPath = os.path.join(sDatahomePath, sTkmPath)
 
         sRsltOfJdfYearData = SearchEngine.JudgeYearDataExsit(sTkmPath, sDateTime)
-
-        if sRsltOfJdfYearData != 0:
-            lsFilePathname = SearchEngine.GetObjFilenameList(sRsltOfJdfYearData, ".tif")
-            if len(lsFilePathname) != 0:
-                lBds_ = DataStruct.GetBasicDataInforList(lsFilePathname)
-                lBds = [lBd for lBd in lBds_ if (lBd.sTimeDeail == sDateTime and lBd.iDataProduct == iDataProduct and lBd.iCloudLevel <= iCloulLevel)]
-        return lBds
+        res = {}
+        if len(sRsltOfJdfYearData) != 0:
+            for RsltOfJdfYearData in sRsltOfJdfYearData:
+                lsFilePathname = SearchEngine.GetObjFilenameList(RsltOfJdfYearData, ".tif")
+                if len(lsFilePathname) != 0:
+                    lBds_ = DataStruct.GetBasicDataInforList(lsFilePathname)
+                    for lBd in lBds_:
+                        if (lBd.iDataProduct == iDataProduct and lBd.iCloudLevel <= iCloulLevel) and (lBd.sTimeDeail == sDateTime or sDateTime == 'all'):
+                            if lBd.sTimeDeail not in res.keys():
+                                res[lBd.sTimeDeail] = [lBd]
+                            else:
+                                res[lBd.sTimeDeail].append(lBd)
+        return res

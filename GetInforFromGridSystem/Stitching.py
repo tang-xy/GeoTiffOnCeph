@@ -3,6 +3,7 @@ from DataStruct import basic_data_struct, DataStruct
 from GridCalculate import GridCalculate
 from BaseProcesses import BaseProcesses
 from CoordinateAndProjection import CoordinateAndProjection
+import conf
 
 import numpy as np
 from osgeo import gdal
@@ -10,6 +11,7 @@ from osgeo import gdal
 import os
 import random
 import copy
+import time
 class Stitching():
 
     @staticmethod
@@ -95,10 +97,12 @@ class Stitching():
         dGeoTransform[3] = dGeoTransform[3] + (bdsRlt.iColumnBeg - bdsReferance.iColumnBeg) *\
             dGeoTransform[4] + (bdsRlt.iRowBeg - bdsReferance.iRowBeg) * dGeoTransform[5]
         iBandNum = 1 if iRltDataType == 2 or iRltDataType == 3 or iRltDataType == 6 else iBandNumRef
+        if conf.output_format == ".png":
+            iBandNum = 4
         if (iRltDataType == 1 or iRltDataType == 2 or iRltDataType == 6):
-            dsNew = BaseProcesses.CreateNewImage("GTIFF", bdsRlt.sPathName, dGeoTransform, sGeoProjectionRef, bdsRlt.iColumnRange, bdsRlt.iRowRange, iBandNum, gdal.GDT_UInt16)
+            dsNew = BaseProcesses.CreateNewImage(bdsRlt.sPathName, dGeoTransform, sGeoProjectionRef, bdsRlt.iColumnRange, bdsRlt.iRowRange, iBandNum, gdal.GDT_UInt16)
         else:
-            dsNew = BaseProcesses.CreateNewImage("GTIFF", bdsRlt.sPathName, dGeoTransform, sGeoProjectionRef, bdsRlt.iColumnRange, bdsRlt.iRowRange, iBandNum, gdal.GDT_Float32)
+            dsNew = BaseProcesses.CreateNewImage(bdsRlt.sPathName, dGeoTransform, sGeoProjectionRef, bdsRlt.iColumnRange, bdsRlt.iRowRange, iBandNum, gdal.GDT_Float32)
         
         del dtsImg_1
         del dsNew
@@ -115,13 +119,12 @@ class Stitching():
             dGeoTransform[1] + (bdsRlt.iRowBeg - bdsReferance.iRowBeg) * dGeoTransform[2]
         dGeoTransform[3] = dGeoTransform[3] + (bdsRlt.iColumnBeg - bdsReferance.iColumnBeg) *\
             dGeoTransform[4] + (bdsRlt.iRowBeg - bdsReferance.iRowBeg) * dGeoTransform[5]
-        RandKey = random.randint(0,999)
         sFileName = bdsReferance.sTimeDeail +\
             str(iPCSType) +\
             str(int(dGeoTransform[0])) +\
             str(int(dGeoTransform[3])) +\
             GridCalculate.IntToString(bdsRlt.iDataProduct, 3) +\
-            GridCalculate.IntToString(RandKey, 3)
+            "_" + conf.ID + '_' + conf.search_time
         bdsRlt.sPathName = os.path.join(sRslPath, str(iPCSType), sFileName + ".tif")
         del dtsImg_1
         return bdsRlt
