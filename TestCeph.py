@@ -22,7 +22,7 @@ def upload_ceph_with_att(path):
     start_att = time()
     basename =  os.path.basename(path)
     filename, fileend = os.path.splitext(basename)
-    if fileend != '.tif':
+    if fileend != '.tif' or filename[0] == "M":
         print("error:" + path)
     else:
         meta_dict = {}
@@ -86,6 +86,7 @@ if __name__ == "__main__":
     if 'gf1' not in ceph_editor.get_bucket():
         ceph_editor.create_bucket('gf1')
     model = sys.argv[1]
+    # model = 'create'
     start = time()
     print("Start: " + str(start))
     if model == 'create':
@@ -98,6 +99,7 @@ if __name__ == "__main__":
         # do_foreach_file('32652(copy)/5104', upload_ceph)
         # end_all = time()
         # print("全部上传耗时{0}".format(end_all - start_all))
+        fp.close()
     elif model == 'upload_delete':
         upload_delete_tif()
     elif model == 'download':
@@ -106,6 +108,8 @@ if __name__ == "__main__":
         rows_download_tif()
     elif model == 'meta_data':
         meta_data()
+    elif model == 'delete':
+        ceph_editor.delete_all_by_client()
     stop = time()
     print("Stop: " + str(stop))
     print("总耗时" + str(stop-start) + "秒")
