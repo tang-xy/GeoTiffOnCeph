@@ -8,7 +8,7 @@ import os
 from time import time
 
 ceph_editor = CephS3BOTO3('gf1')
-
+fp = open("res.txt","a")
 
 
 def upload_ceph(path):
@@ -18,6 +18,8 @@ def upload_ceph(path):
 
 def upload_ceph_with_att(path):
     global ceph_editor
+    global fp
+    start_att = time()
     basename =  os.path.basename(path)
     filename, fileend = os.path.splitext(basename)
     if fileend != '.tif':
@@ -29,6 +31,8 @@ def upload_ceph_with_att(path):
         with open(path + '.xml', 'rb') as meta_data:
             meta_dict['tfw'] =  repr(meta_data.read())
         ceph_editor.upload_file(path, 'new_' + basename, meta_dict = meta_dict)
+    end = time()
+    fp.write(filename + " time: " + str(end - start_att)) 
 
 def download_tif():
     for i in range(5):
@@ -85,16 +89,15 @@ if __name__ == "__main__":
     start = time()
     print("Start: " + str(start))
     if model == 'create':
-        do_foreach_file('32652(copy)/5104', createtif)
         start_att = time()
-        do_foreach_file('32652(copy)/5104', upload_ceph_with_att, end_name='.tif')
+        do_foreach_file('/data/datatrans/unrar/75GData', upload_ceph_with_att, end_name='.tif')
         end_att = time()
         print("属性上传耗时{0}".format(end_att - start_att))
 
-        start_all = time()
-        do_foreach_file('32652(copy)/5104', upload_ceph)
-        end_all = time()
-        print("全部上传耗时{0}".format(end_all - start_all))
+        # start_all = time()
+        # do_foreach_file('32652(copy)/5104', upload_ceph)
+        # end_all = time()
+        # print("全部上传耗时{0}".format(end_all - start_all))
     elif model == 'upload_delete':
         upload_delete_tif()
     elif model == 'download':

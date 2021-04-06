@@ -5,10 +5,10 @@ from osgeo import gdal
 class CephS3BOTO3():
 
     def __init__(self, bucket_name = ''):
-        access_key = '82LAAKYAP3LJFZ80VBP5'
-        secret_key = 'nxBdnqSJICHl4PeqrKqOQDn17rKI93nyWPtTrKwe'
+        access_key = 'KUODR4H5UR72R6SHY8J5'
+        secret_key = 'BSlHrze4soXetDTbu8abBnGnQkBjdOlF7kl47Ctz'
         self.session = Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key)
-        self.url = 'http://instance-2:7480'
+        self.url = 'http://ceph01:7480'
         self.s3_client = self.session.client('s3', endpoint_url = self.url)
         self.bucket_name = bucket_name
         self.s3_resource = self.session.resource('s3', endpoint_url = self.url)
