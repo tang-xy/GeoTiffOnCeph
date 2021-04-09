@@ -1,7 +1,7 @@
 # coding:utf-8
 from boto3.session import Session
 from time import time
-from osgeo import gdal
+# from osgeo import gdal
 class CephS3BOTO3():
 
     def __init__(self, bucket_name = ''):
@@ -39,6 +39,7 @@ class CephS3BOTO3():
         return resp
 
     def delete_all_by_client(self):
+        #最多删除1000条数据
         resp = self.s3_client.list_objects(Bucket = self.bucket_name)
         keylist = [{ 'Key' : obj["Key"] } for obj in resp['Contents']]
         self.s3_client.delete_objects(
@@ -48,6 +49,11 @@ class CephS3BOTO3():
             }
         )
     
+    def delete_all_by_bucket(self, pre):
+        if self.bucket == None:
+            self.bucket = self.s3_resource.Bucket(self.bucket_name)
+        self.bucket.objects.filter(Prefix=pre).delete()
+
     def download_all_file(self, path):
         # bucket = self.s3_resource.Bucket(self.bucket_name)
         # for obj in bucket.objects.all():
@@ -61,8 +67,6 @@ class CephS3BOTO3():
                 Filename = path + '/' + key
             )
 
-    def delete_all_by_resource(self):
-        bucket = self.s3_resource.Bucket(self.bucket_name)
 
     def download_dir(self, bucket_prefix, path):
         # if self.bucket == None:
@@ -106,10 +110,10 @@ class CephS3BOTO3():
         )
         return resp['Body'].read()
 
-    def get_gdal_dataset_inmemory(self, obj_name):
-        if obj_name.split('.')[-1] not in self.filename_valid:
-            raise Exception("不合法的文件名")
-        imageBuffer = self.download(obj_name)
-        memFilename = "/vsimem/" + obj_name
-        gdal.FileFromMemBuffer(memFilename, imageBuffer)
-        return gdal.Open(memFilename)
+    # def get_gdal_dataset_inmemory(self, obj_name):
+    #     if obj_name.split('.')[-1] not in self.filename_valid:
+    #         raise Exception("不合法的文件名")
+    #     imageBuffer = self.download(obj_name)
+    #     memFilename = "/vsimem/" + obj_name
+    #     gdal.FileFromMemBuffer(memFilename, imageBuffer)
+    #     return gdal.Open(memFilename)

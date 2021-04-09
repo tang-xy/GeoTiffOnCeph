@@ -24,6 +24,7 @@ def upload_ceph_with_att(path):
     filename, fileend = os.path.splitext(basename)
     if fileend != '.tif' or filename[0] == "M":
         print("error:" + path)
+        return
     else:
         meta_dict = {}
         with open(os.path.splitext(path)[0] + '.tfw', 'rb') as tfw:
@@ -109,7 +110,7 @@ if __name__ == "__main__":
     elif model == 'meta_data':
         meta_data()
     elif model == 'delete':
-        ceph_editor.delete_all_by_client()
+        ceph_editor.delete_all_by_bucket("")
     stop = time()
     print("Stop: " + str(stop))
     print("总耗时" + str(stop-start) + "秒")
