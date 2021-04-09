@@ -8,7 +8,7 @@ import os
 from time import time
 
 ceph_editor = CephS3BOTO3('gf1')
-fp = open("res.txt","a")
+fp = open("res.txt","w")
 
 
 def upload_ceph(path):
@@ -36,11 +36,10 @@ def upload_ceph_with_att(path):
     fp.write(filename + " time: " + str(end - start_att)) 
 
 def download_tif():
-    for i in range(5):
-        start = time()
-        ceph_editor.download_all_file('32652_new')
-        stop = time()
-        print('第{0}次，{1}秒'.format(i, str(stop-start)))
+    start = time()
+    i = ceph_editor.download_all_file('/data/datatrans/download')
+    stop = time()
+    print('共{0}次，{1}秒'.format(i, str(stop-start)))
 
 def upload_delete_tif():
     global ceph_editor
@@ -77,7 +76,7 @@ def meta_data():
         filter_time = 0
         row_time = 0
         for gridcode in gridcodes:
-            tmp1, tmp2 = ceph_editor.get_metadata(gridcode + '2013', '32652_new')
+            tmp1, tmp2 = ceph_editor.get_metadata(gridcode + '2013')
             filter_time += tmp1
             row_time += tmp2
         stop = time()

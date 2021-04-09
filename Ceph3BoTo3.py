@@ -55,17 +55,21 @@ class CephS3BOTO3():
         self.bucket.objects.filter(Prefix=pre).delete()
 
     def download_all_file(self, path):
-        # bucket = self.s3_resource.Bucket(self.bucket_name)
-        # for obj in bucket.objects.all():
-        #     obj.Object().download_file(path + '/' + obj.key)
-        resp = self.s3_client.list_objects(Bucket = self.bucket_name)
-        keylist = [obj["Key"] for obj in resp['Contents']]
-        for key in keylist:
-            self.s3_client.download_file(
-                Bucket = self.bucket_name,
-                Key = key,
-                Filename = path + '/' + key
-            )
+        if self.bucket == None:
+            self.bucket = self.s3_resource.Bucket(self.bucket_name)
+        i = 0
+        for obj in self.bucket.objects.all():
+            obj.Object().download_file(path + '/' + obj.key)
+            i += 1
+        return i
+        # resp = self.s3_client.list_objects(Bucket = self.bucket_name)
+        # keylist = [obj["Key"] for obj in resp['Contents']]
+        # for key in keylist:
+        #     self.s3_client.download_file(
+        #         Bucket = self.bucket_name,
+        #         Key = key,
+        #         Filename = path + '/' + key
+        #     )
 
 
     def download_dir(self, bucket_prefix, path):
@@ -85,14 +89,14 @@ class CephS3BOTO3():
         end = time()
         return now - start, end - now
 
-    def get_metadata(self, bucket_prefix, path):
+    def get_metadata(self, bucket_prefix):
         start = time()
         if self.bucket == None:
             self.bucket = self.s3_resource.Bucket(self.bucket_name)
         objs = self.bucket.objects.filter(Prefix = bucket_prefix)
         now = time()
         for obj in objs:
-            neveruse = self.s3_resource.Object(self.bucket_name, obj.key).metadata
+            neveruse = obj.Object().metadata
         end = time()
         return now - start, end - now
 
