@@ -33,13 +33,16 @@ def upload_ceph_with_att(path):
             meta_dict['tfw'] =  repr(meta_data.read())
         ceph_editor.upload_file(path, 'new_' + basename, meta_dict = meta_dict)
     end = time()
-    fp.write(filename + " time: " + str(end - start_att)) 
+    file_size = os.stat(path).st_size
+    fp.write(filename + ",time," + str(end - start_att) + ",size," + str(file_size)) 
 
 def download_tif():
     start = time()
     i = ceph_editor.download_all_file('/data/datatrans/download')
+    fp.write(i) 
+    fp.close()
     stop = time()
-    print('共{0}次，{1}秒'.format(i, str(stop-start)))
+    print('共{0}次，{1}秒'.format(1, str(stop-start)))
 
 def upload_delete_tif():
     global ceph_editor

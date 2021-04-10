@@ -57,11 +57,13 @@ class CephS3BOTO3():
     def download_all_file(self, path):
         if self.bucket == None:
             self.bucket = self.s3_resource.Bucket(self.bucket_name)
-        i = 0
+        lis = ""
         for obj in self.bucket.objects.all():
+            start = time()
             obj.Object().download_file(path + '/' + obj.key)
-            i += 1
-        return i
+            end = time()
+            lis += ("size,{0},time,{1}\n".format(obj.size, str(end-start)))
+        return lis
         # resp = self.s3_client.list_objects(Bucket = self.bucket_name)
         # keylist = [obj["Key"] for obj in resp['Contents']]
         # for key in keylist:
