@@ -55,9 +55,12 @@ def get_unitblock_list(pWGSLT, pWGSRB):
         pWGSRB_temp['dy'] = pWGSRB['dy']
         pWGSLB_temp['dx'] = pWGSLT_temp['dx']
         pWGSLB_temp['dy'] = pWGSRB['dy']
+        start = time()
         sGridCodeLT = CoordinateAndProjection.GeoCdnToGridCode(pWGSLT_temp)
         sGridCodeRB = CoordinateAndProjection.GeoCdnToGridCode(pWGSRB_temp)
         sGridCodeLB = CoordinateAndProjection.GeoCdnToGridCode(pWGSLB_temp)
+        end = time()
+        print("本次耗时{0}".format((end-start)*1000))
         resGridCodeLT =  GridCalculate.LtPointRecaculate(sGridCodeLT, sGridCodeRB, sGridCodeLB)
         if bd_number == iaZoneL:
             temp_res['sGridCodeLT'] = sGridCodeLT
@@ -99,20 +102,20 @@ if __name__ == "__main__":
 
     pWGSLT, pWGSRB  = BaseProcesses.read_json_area(conf.jsonpath)
     unitblock_list = get_unitblock_list(pWGSLT, pWGSRB)
-    grid_dic = {}
-    for unitblock in unitblock_list:
-        lsGridcode = GridCalculate.GridCodeToGridlist_iPCSType(unitblock['sGridCodeLT'],\
-         unitblock['sGridCodeRB'], unitblock['iPCSType'])
-        for sGridCode in lsGridcode:
-            lbds10kmIn = SearchEngine.SearchByRgDttmDtpd(sGridCode, conf.sDatahomePath, conf.search_time,
-             conf.iDataProduct, conf.iCloulLevel)
-            for lbd_time in lbds10kmIn:
-                if lbd_time not in grid_dic.keys():
-                    grid_dic[lbd_time] = [gdal.Open(lbd.sPathName) for lbd in lbds10kmIn[lbd_time]]
-                else:
-                    grid_dic[lbd_time] += [gdal.Open(lbd.sPathName) for lbd in lbds10kmIn[lbd_time]]
+    # grid_dic = {}
+    # for unitblock in unitblock_list:
+    #     lsGridcode = GridCalculate.GridCodeToGridlist_iPCSType(unitblock['sGridCodeLT'],\
+    #      unitblock['sGridCodeRB'], unitblock['iPCSType'])
+    #     for sGridCode in lsGridcode:
+    #         lbds10kmIn = SearchEngine.SearchByRgDttmDtpd(sGridCode, conf.sDatahomePath, conf.search_time,
+    #          conf.iDataProduct, conf.iCloulLevel)
+    #         for lbd_time in lbds10kmIn:
+    #             if lbd_time not in grid_dic.keys():
+    #                 grid_dic[lbd_time] = [gdal.Open(lbd.sPathName) for lbd in lbds10kmIn[lbd_time]]
+    #             else:
+    #                 grid_dic[lbd_time] += [gdal.Open(lbd.sPathName) for lbd in lbds10kmIn[lbd_time]]
 
-    for lbd_time in grid_dic:
-        clip_dataset_list_groupby_time(grid_dic[lbd_time], lbd_time)
+    # for lbd_time in grid_dic:
+    #     clip_dataset_list_groupby_time(grid_dic[lbd_time], lbd_time)
     end = time()
     print("耗时{0}".format(end-start))

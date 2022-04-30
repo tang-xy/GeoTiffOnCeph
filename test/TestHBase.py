@@ -45,12 +45,11 @@ def transport_decorator(function):
     return decorator
 
 def create_table():
-    transport = TFramedTransport(TSocket.TSocket('instance-2', 9090))  
-    protocol = TCompactProtocol.TCompactProtocol(transport)  
-    client = Hbase.Client(protocol)  
+    global transport
+    global client
     transport.open()
 
-    contents = ColumnDescriptor(name='gf1', maxVersions=1)
+    contents = ColumnDescriptor(name='gf1:', maxVersions=1)
     client.createTable('image', [contents])
 
     print(client.getTableNames())

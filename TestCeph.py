@@ -9,6 +9,7 @@ from time import time
 
 ceph_editor = CephS3BOTO3('gf1')
 fp = open("res.txt","w")
+file_num = 0
 
 
 def upload_ceph(path):
@@ -19,6 +20,9 @@ def upload_ceph(path):
 def upload_ceph_with_att(path):
     global ceph_editor
     global fp
+    global file_num
+    if file_num > 10000:
+        return
     start_att = time()
     basename =  os.path.basename(path)
     filename, fileend = os.path.splitext(basename)
@@ -34,7 +38,8 @@ def upload_ceph_with_att(path):
         ceph_editor.upload_file(path, 'new_' + basename, meta_dict = meta_dict)
     end = time()
     file_size = os.stat(path).st_size
-    fp.write(filename + ",time," + str(end - start_att) + ",size," + str(file_size)) 
+    fp.write(filename + ",time," + str(end - start_att) + ",size," + str(file_size) + "\n") 
+    file_num += 1
 
 def download_tif():
     start = time()
@@ -71,9 +76,9 @@ def rows_download_tif():
 
 def meta_data():
     global ceph_editor
-    for i in range(60):
+    for i in range(600):
         start = time()
-        gridcode_lt_rb = random.sample(range(510470, 510479), 2)
+        gridcode_lt_rb = random.sample(range(510400, 510499), 2)
         gridcode_lt_rb.sort()
         gridcodes = GridCalculate.GridCodeToGridlist(str(gridcode_lt_rb[0]), str(gridcode_lt_rb[1]))
         filter_time = 0
@@ -84,6 +89,28 @@ def meta_data():
             row_time += tmp2
         stop = time()
         print('第{0}次, {2}个格网, {1}秒, filter耗时{3},查询元数据耗时{4}'.format(i, str(stop - start), gridcode_lt_rb[1] - gridcode_lt_rb[0] + 1, filter_time, row_time))
+
+def get_list():
+    global ceph_editor
+    global fp
+    grids = open("data\\grid.txt")
+    line = grids.readline()[:-1]
+    while line:
+        start = time()
+        gridcode_lt_rb = random.sample(range(510400, 510499), 1)[0]
+        timecode = random.sample(range(2013, 2018), 1)[0]
+        if ceph_editor.bucket == None:
+            ceph_editor.bucket = ceph_editor.s3_resource.Bucket(ceph_editor.bucket_name)
+        # objs = ceph_editor.bucket.objects.filter(Prefix = 'new_' + str(gridcode_lt_rb) + str(timecode))
+        objs = ceph_editor.bucket.objects.filter(Prefix = 'new_' + line)
+        num = 0
+        for obj in objs:
+            num += 1
+        end = time()
+        line = grids.readline()[:-1]
+        fp.write("time," + str(end - start) + ",grid_num," + str(num)) 
+    fp.close()
+        
 
 if __name__ == "__main__":
     if 'gf1' not in ceph_editor.get_bucket():
@@ -111,6 +138,8 @@ if __name__ == "__main__":
         rows_download_tif()
     elif model == 'meta_data':
         meta_data()
+    elif model == "getlist":
+        get_list()
     elif model == 'delete':
         ceph_editor.delete_all_by_bucket("")
     stop = time()

@@ -21,7 +21,6 @@ def do_foreach_file(url, func, end_name = ''):
         if os.path.isfile(real_path):
             filename, fileend = os.path.splitext(real_path)
             if end_name == '' or fileend == end_name:
-                
                 func(real_path)
                 
         elif os.path.isdir(real_path):
@@ -65,6 +64,7 @@ def rows_download_tif(client_hdfs):
                         client_hdfs.download(real_path, '32652_new/' + filename, overwrite = True)
         stop = time()
         print('第{0}次, {2}个格网, {1}秒'.format(i, str(stop-start), gridcode_lt_rb[1] - gridcode_lt_rb[0] + 1))
+
 
 if __name__ == "__main__":
     #model = "upload&delete"
