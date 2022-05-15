@@ -5,10 +5,10 @@ from time import time
 class CephS3BOTO3():
 
     def __init__(self, bucket_name = ''):
-        access_key = 'KUODR4H5UR72R6SHY8J5'
-        secret_key = 'BSlHrze4soXetDTbu8abBnGnQkBjdOlF7kl47Ctz'
+        access_key = 'MCNBMBAERC2UA0E2EA4P'
+        secret_key = 'm0I03C0oWxnFrRFVq2KNRcwZPSh0ffiaxpFmexnA'
         self.session = Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key)
-        self.url = 'http://ceph01:7480'
+        self.url = 'http://ceph1:7480'
         self.s3_client = self.session.client('s3', endpoint_url = self.url)
         self.bucket_name = bucket_name
         self.s3_resource = self.session.resource('s3', endpoint_url = self.url)

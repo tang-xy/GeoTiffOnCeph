@@ -113,22 +113,22 @@ def get_list():
         
 
 if __name__ == "__main__":
-    if 'gf1' not in ceph_editor.get_bucket():
-        ceph_editor.create_bucket('gf1')
+    if 'GeoHugeTest' not in ceph_editor.get_bucket():
+        ceph_editor.create_bucket('GeoHugeTest')
     model = sys.argv[1]
     # model = 'create'
     start = time()
     print("Start: " + str(start))
     if model == 'create':
-        start_att = time()
-        do_foreach_file('/data/datatrans/unrar/75GData', upload_ceph_with_att, end_name='.tif')
-        end_att = time()
-        print("属性上传耗时{0}".format(end_att - start_att))
+        # start_att = time()
+        # do_foreach_file('/data/datatrans/unrar/75GData', upload_ceph_with_att, end_name='.tif')
+        # end_att = time()
+        # print("属性上传耗时{0}".format(end_att - start_att))
 
-        # start_all = time()
-        # do_foreach_file('32652(copy)/5104', upload_ceph)
-        # end_all = time()
-        # print("全部上传耗时{0}".format(end_all - start_all))
+        start_all = time()
+        do_foreach_file('/zhaolong/data/Landsat8/clip', upload_ceph)
+        end_all = time()
+        print("全部上传耗时{0}".format(end_all - start_all))
         fp.close()
     elif model == 'upload_delete':
         upload_delete_tif()
